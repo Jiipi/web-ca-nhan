@@ -64,7 +64,7 @@
                 <nav class="nav hidden md:block">
                     <ul class="flex space-x-8">
                         <li><a href="#" onclick="showSection('home')" class="nav-link text-blue-600 dark:text-blue-400 font-medium px-4 py-2 rounded-lg bg-blue-50 dark:bg-blue-900/30 active">Trang Chủ</a></li>
-                        <li><a href="#" onclick="showSection('about')" class="nav-link text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium px-4 py-2 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700 transition-all">Về Tôi</a></li>
+                        <li><a href="#" onclick="showSection('about')" class="nav-link text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium px-4 py-2 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700 transition-all">Giới thiệu</a></li>
                         <li><a href="#" onclick="showSection('portfolio')" class="nav-link text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium px-4 py-2 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700 transition-all">Dự án</a></li>
                         <li><a href="#" onclick="showSection('blog')" class="nav-link text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium px-4 py-2 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700 transition-all">Blog</a></li>
                         <li><a href="#" onclick="showSection('contact')" class="nav-link text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium px-4 py-2 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700 transition-all">Liên Hệ</a></li>
@@ -87,7 +87,7 @@
             <div id="mobile-menu" class="md:hidden hidden pb-4">
                 <ul class="flex flex-col space-y-2">
                     <li><a href="#" onclick="showSection('home')" class="block text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium px-4 py-2 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700 transition-all">Trang Chủ</a></li>
-                    <li><a href="#" onclick="showSection('about')" class="block text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium px-4 py-2 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700 transition-all">Về Tôi</a></li>
+                    <li><a href="#" onclick="showSection('about')" class="block text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium px-4 py-2 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700 transition-all">Giới thiệu</a></li>
                     <li><a href="#" onclick="showSection('portfolio')" class="block text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium px-4 py-2 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700 transition-all">Dự án</a></li>
                     <li><a href="#" onclick="showSection('blog')" class="block text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium px-4 py-2 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700 transition-all">Blog</a></li>
                     <li><a href="#" onclick="showSection('contact')" class="block text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium px-4 py-2 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700 transition-all">Liên Hệ</a></li>
@@ -109,7 +109,7 @@
             <div class="max-w-6xl mx-auto px-5 relative z-10">
                 <div class="text-center">
                     <div class="mb-8">
-                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop&crop=face" alt="Avatar" class="w-32 h-32 rounded-full mx-auto mb-6 border-4 border-white shadow-xl">
+                        <img src="assets/avatar.jpg" alt="Avatar" class="w-40 h-41 rounded-full mx-auto mb-6 border-4 border-white shadow-xl object-cover">
                     </div>
                     <h1 class="text-5xl md:text-7xl font-bold mb-6 animate-fade-in">
                     <span class="text-blue-300">Trần Ngọc Hưng</span>
@@ -257,14 +257,14 @@
             <div class="max-w-6xl mx-auto px-5">
                 <div class="flex flex-col lg:flex-row items-center gap-12 text-center lg:text-left">
                     <div class="about-image flex-shrink-0">
-                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=300&fit=crop&crop=face" alt="Ảnh cá nhân" class="w-48 h-48 lg:w-64 lg:h-64 rounded-full object-cover shadow-xl">
+                        <img src="assets/avatar.jpg" alt="Ảnh cá nhân" class="w-48 h-48 lg:w-64 lg:h-64 rounded-full object-cover shadow-xl">
                     </div>
                     <div class="about-text">
                         <h1 class="text-4xl lg:text-5xl font-bold mb-2 text-slate-800 dark:text-slate-200">Xin chào, tôi là Trần Ngọc Hưng</h1>
                         <p class="text-xl text-blue-600 dark:text-blue-400 font-medium mb-4">Full-stack Developer & UI/UX Designer</p>
                         <p class="text-lg text-slate-600 dark:text-slate-300 leading-relaxed">
-                            Tôi là một developer đam mê công nghệ với hơn 5 năm kinh nghiệm trong việc xây dựng các ứng dụng web và mobile. 
-                            Tôi yêu thích việc tạo ra những sản phẩm không chỉ đẹp mắt mà còn mang lại trải nghiệm tuyệt vời cho người dùng.
+                            Mình là một developer đam mê công nghệ với những điều mới mẻ và không thích bị gò bó, rất thích tìm hiểu và xây dựng các ứng dụng web và mobile. 
+                            Mình yêu thích việc tạo ra những sản phẩm không chỉ đẹp mắt mà còn mang lại trải nghiệm tuyệt vời cho người dùng.
                         </p>
                     </div>
                 </div>
