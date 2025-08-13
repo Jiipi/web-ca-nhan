@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trang Cá Nhân - Chào mừng bạn đến với trang cá nhân của tôi</title>
+    <title>Trần Ngọc Hưng - Full-stack Developer & UI/UX Designer</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script>
         tailwind.config = {
             darkMode: 'class',
@@ -17,10 +17,32 @@
                     },
                     colors: {
                         'primary': {
-                            50: '#eff6ff',
-                            500: '#3b82f6',
-                            600: '#2563eb',
-                            700: '#1d4ed8',
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                            900: '#0c4a6e'
+                        }
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'fade-in-up': 'fadeInUp 0.8s ease-out',
+                        'slide-in-right': 'slideInRight 0.8s ease-out',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-20px)' }
+                        },
+                        fadeInUp: {
+                            '0%': { opacity: '0', transform: 'translateY(30px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' }
+                        },
+                        slideInRight: {
+                            '0%': { opacity: '0', transform: 'translateX(30px)' },
+                            '100%': { opacity: '1', transform: 'translateX(0)' }
                         }
                     }
                 }
@@ -35,62 +57,106 @@
             display: block;
         }
         .nav-link.active {
-            color: #15c1e8;
-            background-color: #dbeafe;
+            color: #0ea5e9;
+            background-color: rgba(14, 165, 233, 0.1);
+            font-weight: 600;
         }
         .dark .nav-link.active {
-            color: #5dd6c4;
-            background-color: rgba(37, 99, 235, 0.2);
+            color: #38bdf8;
+            background-color: rgba(56, 189, 248, 0.1);
         }
-        .animate-fade-in {
-            animation: fadeIn 1s ease-in-out;
+        .glass {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+        .dark .glass {
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid rgba(148, 163, 184, 0.2);
+        }
+        .gradient-text {
+            background: linear-gradient(135deg, #0ea5e9, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .skill-bar {
+            animation: fill-bar 2s ease-in-out;
+        }
+        @keyframes fill-bar {
+            from { width: 0; }
+            to { width: var(--width); }
+        }
+        .portfolio-item {
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        .portfolio-item:hover {
+            transform: translateY(-12px) scale(1.02);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+        }
+        .typing-animation {
+            border-right: 2px solid #0ea5e9;
+            animation: typing 4s steps(40, end), blink-caret 0.5s step-end infinite;
+        }
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: #0ea5e9 }
         }
     </style>
 </head>
-<body class="font-inter text-slate-800 bg-white dark:text-slate-200 dark:bg-slate-900 transition-colors duration-300">
+<body class="font-inter text-slate-900 bg-white dark:text-slate-100 dark:bg-slate-900 transition-all duration-300">
+    
+    <!-- Scroll Progress Bar -->
+    <div class="fixed top-0 left-0 w-full h-1 bg-slate-200 dark:bg-slate-700 z-[60]">
+        <div id="scroll-progress" class="h-full bg-gradient-to-r from-primary-500 to-purple-500 w-0 transition-all duration-150"></div>
+    </div>
+
     <!-- Header -->
-    <header class="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm shadow-sm sticky top-0 z-50 border-b border-transparent dark:border-slate-700">
-        <div class="max-w-6xl mx-auto px-5">
+    <header class="fixed top-0 left-0 right-0 z-50 glass transition-all duration-300" id="header">
+        <div class="max-w-7xl mx-auto px-6">
             <div class="flex justify-between items-center py-4">
                 <div class="logo">
-                    <h1 class="text-2xl font-bold">
-                        <a href="#" onclick="showSection('home')" class="text-slate-800 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 transition-colors cursor-pointer">Code & Design</a>
+                    <h1 class="text-2xl font-bold gradient-text">
+                        <a href="#" onclick="showSection('home')" class="cursor-pointer">TNH</a>
                     </h1>
                 </div>
+                
                 <nav class="nav hidden md:block">
-                    <ul class="flex space-x-8">
-                        <li><a href="#" onclick="showSection('home')" class="nav-link text-blue-600 dark:text-blue-400 font-medium px-4 py-2 rounded-lg bg-blue-50 dark:bg-blue-900/30 active">Trang Chủ</a></li>
-                        <li><a href="#" onclick="showSection('about')" class="nav-link text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium px-4 py-2 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700 transition-all">Giới thiệu</a></li>
-                        <li><a href="#" onclick="showSection('portfolio')" class="nav-link text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium px-4 py-2 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700 transition-all">Dự án</a></li>
-                        <li><a href="#" onclick="showSection('blog')" class="nav-link text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium px-4 py-2 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700 transition-all">Blog</a></li>
-                        <li><a href="#" onclick="showSection('contact')" class="nav-link text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium px-4 py-2 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700 transition-all">Liên Hệ</a></li>
+                    <ul class="flex space-x-2">
+                        <li><a href="#" onclick="showSection('home')" class="nav-link px-4 py-2 rounded-xl font-medium transition-all duration-300 hover:bg-slate-100 dark:hover:bg-slate-700 active">Trang Chủ</a></li>
+                        <li><a href="#" onclick="showSection('about')" class="nav-link px-4 py-2 rounded-xl font-medium transition-all duration-300 hover:bg-slate-100 dark:hover:bg-slate-700">Giới thiệu</a></li>
+                        <li><a href="#" onclick="showSection('portfolio')" class="nav-link px-4 py-2 rounded-xl font-medium transition-all duration-300 hover:bg-slate-100 dark:hover:bg-slate-700">Dự án</a></li>
+                        <li><a href="#" onclick="showSection('blog')" class="nav-link px-4 py-2 rounded-xl font-medium transition-all duration-300 hover:bg-slate-100 dark:hover:bg-slate-700">Blog</a></li>
+                        <li><a href="#" onclick="showSection('contact')" class="nav-link px-4 py-2 rounded-xl font-medium transition-all duration-300 hover:bg-slate-100 dark:hover:bg-slate-700">Liên Hệ</a></li>
                     </ul>
                 </nav>
-                <div class="flex items-center gap-4">
-                    <!-- Dark Mode Toggle -->
-                    <button id="theme-toggle" class="w-10 h-10 rounded-lg bg-slate-100 dark:bg-slate-700 flex items-center justify-center hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors">
+
+                <div class="flex items-center gap-3">
+                    <button id="theme-toggle" class="w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center hover:bg-slate-200 dark:hover:bg-slate-700 transition-all duration-300 hover:scale-105">
                         <i class="fas fa-sun text-slate-600 dark:text-slate-300 dark:hidden"></i>
                         <i class="fas fa-moon text-slate-300 hidden dark:block"></i>
                     </button>
-                    <div class="hamburger md:hidden flex flex-col space-y-1 cursor-pointer" onclick="toggleMobileMenu()">
-                        <span class="w-6 h-0.5 bg-slate-800 dark:bg-slate-200 transition-all"></span>
-                        <span class="w-6 h-0.5 bg-slate-800 dark:bg-slate-200 transition-all"></span>
-                        <span class="w-6 h-0.5 bg-slate-800 dark:bg-slate-200 transition-all"></span>
-                    </div>
+                    
+                    <button class="hamburger md:hidden w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-800 flex flex-col items-center justify-center space-y-1 hover:bg-slate-200 dark:hover:bg-slate-700 transition-all duration-300" onclick="toggleMobileMenu()">
+                        <span class="w-5 h-0.5 bg-slate-800 dark:bg-slate-200 transition-all duration-300"></span>
+                        <span class="w-5 h-0.5 bg-slate-800 dark:bg-slate-200 transition-all duration-300"></span>
+                        <span class="w-5 h-0.5 bg-slate-800 dark:bg-slate-200 transition-all duration-300"></span>
+                    </button>
                 </div>
             </div>
+            
             <!-- Mobile Menu -->
-            <div id="mobile-menu" class="md:hidden hidden pb-4">
-                <ul class="flex flex-col space-y-2">
-                    <li><a href="#" onclick="showSection('home')" class="block text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium px-4 py-2 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700 transition-all">Trang Chủ</a></li>
-                    <li><a href="#" onclick="showSection('about')" class="block text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium px-4 py-2 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700 transition-all">Giới thiệu</a></li>
-                    <li><a href="#" onclick="showSection('portfolio')" class="block text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium px-4 py-2 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700 transition-all">Dự án</a></li>
-                    <li><a href="#" onclick="showSection('blog')" class="block text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium px-4 py-2 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700 transition-all">Blog</a></li>
-                    <li><a href="#" onclick="showSection('contact')" class="block text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium px-4 py-2 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700 transition-all">Liên Hệ</a></li>
+            <div id="mobile-menu" class="md:hidden hidden pb-4 pt-2">
+                <ul class="flex flex-col space-y-1">
+                    <li><a href="#" onclick="showSection('home')" class="block px-4 py-3 rounded-xl font-medium transition-all duration-300 hover:bg-slate-100 dark:hover:bg-slate-700">Trang Chủ</a></li>
+                    <li><a href="#" onclick="showSection('about')" class="block px-4 py-3 rounded-xl font-medium transition-all duration-300 hover:bg-slate-100 dark:hover:bg-slate-700">Giới thiệu</a></li>
+                    <li><a href="#" onclick="showSection('portfolio')" class="block px-4 py-3 rounded-xl font-medium transition-all duration-300 hover:bg-slate-100 dark:hover:bg-slate-700">Dự án</a></li>
+                    <li><a href="#" onclick="showSection('blog')" class="block px-4 py-3 rounded-xl font-medium transition-all duration-300 hover:bg-slate-100 dark:hover:bg-slate-700">Blog</a></li>
+                    <li><a href="#" onclick="showSection('contact')" class="block px-4 py-3 rounded-xl font-medium transition-all duration-300 hover:bg-slate-100 dark:hover:bg-slate-700">Liên Hệ</a></li>
                 </ul>
             </div>
         </div>
@@ -99,151 +165,194 @@
     <!-- Home Section -->
     <section id="home-section" class="section active">
         <!-- Hero Section -->
-        <div class="bg-gradient-to-br from-blue-600 via-purple-600 to-blue-800 dark:from-blue-700 dark:via-purple-700 dark:to-blue-900 text-white py-24 relative overflow-hidden">
-            <div class="absolute inset-0 bg-black opacity-20"></div>
-            <div class="absolute inset-0">
-                <div class="absolute top-20 left-20 w-72 h-72 bg-blue-400 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse"></div>
-                <div class="absolute top-40 right-20 w-72 h-72 bg-purple-400 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse delay-1000"></div>
-                <div class="absolute bottom-20 left-1/2 w-72 h-72 bg-pink-400 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse delay-2000"></div>
+        <div class="min-h-screen flex items-center justify-center relative overflow-hidden bg-gradient-to-br from-slate-50 via-blue-50 to-purple-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
+            <!-- Animated background elements -->
+            <div class="absolute inset-0 overflow-hidden">
+                <div class="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-r from-blue-400 to-purple-400 rounded-full mix-blend-multiply opacity-20 animate-float"></div>
+                <div class="absolute -bottom-40 -left-40 w-80 h-80 bg-gradient-to-r from-purple-400 to-pink-400 rounded-full mix-blend-multiply opacity-20 animate-float" style="animation-delay: 2s;"></div>
+                <div class="absolute top-1/2 left-1/2 w-60 h-60 bg-gradient-to-r from-cyan-400 to-blue-400 rounded-full mix-blend-multiply opacity-20 animate-float" style="animation-delay: 4s;"></div>
             </div>
-            <div class="max-w-6xl mx-auto px-5 relative z-10">
+            
+            <div class="max-w-7xl mx-auto px-6 relative z-10 pt-20">
                 <div class="text-center">
-                    <div class="mb-8">
-                        <img src="assets/avatar.jpg" alt="Avatar" class="w-40 h-41 rounded-full mx-auto mb-6 border-4 border-white shadow-xl object-cover">
+                    <div class="mb-8 animate-fade-in-up">
+                        <div class="relative inline-block">
+                            <img src="hung.jpg" alt="Trần Ngọc Hưng" class="w-32 h-32 md:w-40 md:h-40 rounded-full mx-auto mb-6 border-4 border-white dark:border-slate-700 shadow-2xl object-cover">
+                            <div class="absolute -bottom-2 -right-2 w-6 h-6 bg-green-500 rounded-full border-2 border-white dark:border-slate-700"></div>
+                        </div>
                     </div>
-                    <h1 class="text-5xl md:text-7xl font-bold mb-6 animate-fade-in">
-                    <span class="text-blue-300">Trần Ngọc Hưng</span>
+                    
+                    <h1 class="text-5xl md:text-7xl lg:text-8xl font-black mb-6 animate-fade-in-up" style="animation-delay: 0.2s;">
+                        <span class="gradient-text">Trần Ngọc Hưng</span>
                     </h1>
-                    <p class="text-xl md:text-2xl mb-2 opacity-90 max-w-3xl mx-auto leading-relaxed">
-                    Sinh viên năm 4 ngành công nghệ thông tin
-                    </p>
-                    <p class="text-xl md:text-2xl mb-2 opacity-90 max-w-3xl mx-auto leading-relaxed">
-                    Chuyên ngành: Kỹ thuật phần mềm
-                    </p>
-                    <p class="text-xl md:text-2xl mb-2 opacity-90 max-w-3xl mx-auto leading-relaxed">
-                    Lớp: CTK46-PM
-                    </p>
-                    <p class="text-xl md:text-2xl mb-2 opacity-90 max-w-3xl mx-auto leading-relaxed">
-                    School: DaLat University
+                    
+                    <div class="text-xl md:text-2xl lg:text-3xl font-medium text-slate-600 dark:text-slate-300 mb-4 animate-fade-in-up" style="animation-delay: 0.4s;">
+                        <span class="typing-animation overflow-hidden whitespace-nowrap">Full-stack Developer & UI/UX Designer</span>
+                    </div>
+                    
+                    <p class="text-lg md:text-xl text-slate-500 dark:text-slate-400 mb-12 max-w-3xl mx-auto animate-fade-in-up leading-relaxed" style="animation-delay: 0.6s;">
+                        Sinh viên năm 4 ngành Công nghệ Thông tin, chuyên ngành Kỹ thuật phần mềm tại Đại học Đà Lạt. 
+                        Đam mê tạo ra những sản phẩm số có ý nghĩa và trải nghiệm người dùng tuyệt vời.
                     </p>
                     
-                    <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                        <button onclick="showSection('portfolio')" class="inline-flex items-center gap-2 bg-white text-blue-600 dark:bg-slate-800 dark:text-blue-400 px-8 py-4 rounded-lg font-medium hover:bg-blue-50 dark:hover:bg-slate-700 transition-all transform hover:-translate-y-1 hover:shadow-lg">
-                            <i class="fas fa-rocket"></i>
-                            Dự án
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center mb-16 animate-fade-in-up" style="animation-delay: 0.8s;">
+                        <button onclick="showSection('portfolio')" class="group inline-flex items-center gap-3 bg-gradient-to-r from-primary-500 to-purple-500 hover:from-primary-600 hover:to-purple-600 text-white px-8 py-4 rounded-2xl font-semibold transition-all duration-300 transform hover:-translate-y-1 hover:shadow-2xl hover:shadow-primary-500/25">
+                            <i class="fas fa-rocket group-hover:animate-bounce"></i>
+                            Khám phá dự án
                         </button>
-                        <button onclick="showSection('contact')" class="inline-flex items-center gap-2 border-2 border-white text-white px-8 py-4 rounded-lg font-medium hover:bg-white hover:text-blue-600 transition-all transform hover:-translate-y-1">
-                            <i class="fas fa-envelope"></i>
-                            Liên hệ
+                        <button onclick="showSection('contact')" class="group inline-flex items-center gap-3 border-2 border-slate-300 dark:border-slate-600 hover:border-primary-500 dark:hover:border-primary-400 text-slate-700 dark:text-slate-300 hover:text-primary-600 dark:hover:text-primary-400 px-8 py-4 rounded-2xl font-semibold transition-all duration-300 transform hover:-translate-y-1 hover:shadow-xl">
+                            <i class="fas fa-envelope group-hover:animate-pulse"></i>
+                            Liên hệ ngay
                         </button>
+                    </div>
+                    
+                    <!-- Quick stats -->
+                    <div class="grid grid-cols-3 gap-8 max-w-md mx-auto animate-fade-in-up" style="animation-delay: 1s;">
+                        <div class="text-center">
+                            <div class="text-3xl font-bold gradient-text mb-1">5+</div>
+                            <div class="text-sm text-slate-500 dark:text-slate-400">Năm kinh nghiệm</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-3xl font-bold gradient-text mb-1">50+</div>
+                            <div class="text-sm text-slate-500 dark:text-slate-400">Dự án hoàn thành</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-3xl font-bold gradient-text mb-1">30+</div>
+                            <div class="text-sm text-slate-500 dark:text-slate-400">Khách hàng hài lòng</div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
 
         <!-- Skills Section -->
-        <div class="py-20 bg-white dark:bg-slate-900">
-            <div class="max-w-6xl mx-auto px-5">
-                <h2 class="text-4xl font-bold text-center mb-16 text-slate-800 dark:text-white">Chuyên môn của tôi</h2>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    <div class="text-center group">
-                        <div class="w-20 h-20 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+        <div class="py-24 bg-white dark:bg-slate-900">
+            <div class="max-w-7xl mx-auto px-6">
+                <div class="text-center mb-20">
+                    <h2 class="text-4xl md:text-5xl font-bold gradient-text mb-6">Chuyên môn của tôi</h2>
+                    <p class="text-xl text-slate-600 dark:text-slate-300 max-w-2xl mx-auto">
+                        Tôi chuyên về full-stack development với focus vào trải nghiệm người dùng và hiệu suất
+                    </p>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div class="group bg-gradient-to-br from-blue-50 to-purple-50 dark:from-slate-800 dark:to-slate-700 rounded-3xl p-8 hover:shadow-2xl transition-all duration-500 hover:-translate-y-2">
+                        <div class="w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 group-hover:rotate-3 transition-transform duration-300">
                             <i class="fas fa-code text-2xl text-white"></i>
                         </div>
-                        <h3 class="text-xl font-semibold mb-4 text-slate-800 dark:text-white">Frontend Development</h3>
-                        <p class="text-slate-600 dark:text-slate-300">React, Vue.js, HTML5, CSS3, JavaScript ES6+</p>
+                        <h3 class="text-2xl font-bold mb-4 text-slate-800 dark:text-white">Frontend Development</h3>
+                        <p class="text-slate-600 dark:text-slate-300 mb-6">Tạo ra giao diện người dùng hiện đại, responsive và có trải nghiệm tuyệt vời</p>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="px-3 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 text-sm rounded-full">React</span>
+                            <span class="px-3 py-1 bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400 text-sm rounded-full">Vue.js</span>
+                            <span class="px-3 py-1 bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400 text-sm rounded-full">TypeScript</span>
+                        </div>
                     </div>
-                    <div class="text-center group">
-                        <div class="w-20 h-20 bg-gradient-to-br from-green-500 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+
+                    <div class="group bg-gradient-to-br from-green-50 to-blue-50 dark:from-slate-800 dark:to-slate-700 rounded-3xl p-8 hover:shadow-2xl transition-all duration-500 hover:-translate-y-2">
+                        <div class="w-16 h-16 bg-gradient-to-br from-green-500 to-blue-600 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 group-hover:rotate-3 transition-transform duration-300">
                             <i class="fas fa-server text-2xl text-white"></i>
                         </div>
-                        <h3 class="text-xl font-semibold mb-4 text-slate-800 dark:text-white">Backend Development</h3>
-                        <p class="text-slate-600 dark:text-slate-300">Node.js, Python, PHP, MySQL, MongoDB</p>
-                    </div>
-                    <div class="text-center group">
-                        <div class="w-20 h-20 bg-gradient-to-br from-purple-500 to-pink-600 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
-                            <i class="fas fa-paint-brush text-2xl text-white"></i>
+                        <h3 class="text-2xl font-bold mb-4 text-slate-800 dark:text-white">Backend Development</h3>
+                        <p class="text-slate-600 dark:text-slate-300 mb-6">Xây dựng API robust, database design và kiến trúc server hiệu suất cao</p>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="px-3 py-1 bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400 text-sm rounded-full">Node.js</span>
+                            <span class="px-3 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 text-sm rounded-full">Python</span>
+                            <span class="px-3 py-1 bg-gray-100 dark:bg-gray-900/30 text-gray-600 dark:text-gray-400 text-sm rounded-full">MongoDB</span>
                         </div>
-                        <h3 class="text-xl font-semibold mb-4 text-slate-800 dark:text-white">UI/UX Design</h3>
-                        <p class="text-slate-600 dark:text-slate-300">Figma, Adobe XD, Photoshop, Responsive Design</p>
+                    </div>
+
+                    <div class="group bg-gradient-to-br from-purple-50 to-pink-50 dark:from-slate-800 dark:to-slate-700 rounded-3xl p-8 hover:shadow-2xl transition-all duration-500 hover:-translate-y-2">
+                        <div class="w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-600 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 group-hover:rotate-3 transition-transform duration-300">
+                            <i class="fas fa-palette text-2xl text-white"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-4 text-slate-800 dark:text-white">UI/UX Design</h3>
+                        <p class="text-slate-600 dark:text-slate-300 mb-6">Thiết kế giao diện trực quan, user-centered với research và testing kỹ lưỡng</p>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="px-3 py-1 bg-pink-100 dark:bg-pink-900/30 text-pink-600 dark:text-pink-400 text-sm rounded-full">Figma</span>
+                            <span class="px-3 py-1 bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 text-sm rounded-full">Adobe XD</span>
+                            <span class="px-3 py-1 bg-yellow-100 dark:bg-yellow-900/30 text-yellow-600 dark:text-yellow-400 text-sm rounded-full">Prototyping</span>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Latest Posts -->
-        <div class="py-20 bg-slate-50 dark:bg-slate-800">
-            <div class="max-w-6xl mx-auto px-5">
+        <!-- Latest Posts Preview -->
+        <div class="py-24 bg-slate-50 dark:bg-slate-800">
+            <div class="max-w-7xl mx-auto px-6">
                 <div class="text-center mb-16">
-                    <h2 class="text-4xl font-bold text-slate-800 dark:text-white mb-4">Bài viết mới nhất</h2>
-                    <p class="text-slate-600 dark:text-slate-300 text-lg">Chia sẻ kiến thức và kinh nghiệm</p>
+                    <h2 class="text-4xl md:text-5xl font-bold gradient-text mb-6">Bài viết mới nhất</h2>
+                    <p class="text-xl text-slate-600 dark:text-slate-300">Chia sẻ kiến thức và kinh nghiệm phát triển sản phẩm</p>
                 </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    <article class="bg-white dark:bg-slate-700 rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-2">
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+                    <article class="group bg-white dark:bg-slate-700 rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2">
                         <div class="h-48 overflow-hidden">
-                            <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=400&h=250&fit=crop" alt="Blog post" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300">
+                            <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=400&h=250&fit=crop" alt="React Best Practices" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
                         </div>
-                        <div class="p-6">
+                        <div class="p-8">
                             <div class="flex items-center gap-4 mb-4 text-sm text-slate-500 dark:text-slate-400">
                                 <span>5 Tháng 8, 2025</span>
-                                <span class="bg-blue-600 text-white px-2 py-1 rounded text-xs font-medium">Tech</span>
+                                <span class="bg-blue-500 text-white px-3 py-1 rounded-full text-xs font-medium">React</span>
                             </div>
-                            <h3 class="text-xl font-semibold mb-4 text-slate-800 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
-                                Xu hướng Web Development 2025
+                            <h3 class="text-xl font-bold mb-4 text-slate-800 dark:text-white group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
+                                React Best Practices 2025: Tối ưu hiệu suất
                             </h3>
-                            <p class="text-slate-600 dark:text-slate-300 mb-4">
-                                Khám phá những công nghệ mới nhất trong phát triển web...
+                            <p class="text-slate-600 dark:text-slate-300 mb-6">
+                                Khám phá những kỹ thuật optimization mới nhất trong React để tăng performance...
                             </p>
-                            <button class="inline-flex items-center gap-2 text-blue-600 dark:text-blue-400 font-medium hover:gap-3 transition-all">
+                            <button class="inline-flex items-center gap-2 text-primary-600 dark:text-primary-400 font-semibold group-hover:gap-3 transition-all">
                                 Đọc thêm <i class="fas fa-arrow-right text-sm"></i>
                             </button>
                         </div>
                     </article>
 
-                    <article class="bg-white dark:bg-slate-700 rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-2">
+                    <article class="group bg-white dark:bg-slate-700 rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2">
                         <div class="h-48 overflow-hidden">
-                            <img src="https://images.unsplash.com/photo-1581291518633-83b4ebd1d83e?w=400&h=250&fit=crop" alt="Blog post" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300">
+                            <img src="https://images.unsplash.com/photo-1581291518633-83b4ebd1d83e?w=400&h=250&fit=crop" alt="UI Design" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
                         </div>
-                        <div class="p-6">
+                        <div class="p-8">
                             <div class="flex items-center gap-4 mb-4 text-sm text-slate-500 dark:text-slate-400">
                                 <span>3 Tháng 8, 2025</span>
-                                <span class="bg-green-600 text-white px-2 py-1 rounded text-xs font-medium">Design</span>
+                                <span class="bg-purple-500 text-white px-3 py-1 rounded-full text-xs font-medium">Design</span>
                             </div>
-                            <h3 class="text-xl font-semibold mb-4 text-slate-800 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
-                                Principles of Modern UI Design
+                            <h3 class="text-xl font-bold mb-4 text-slate-800 dark:text-white group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
+                                Xu hướng UI Design 2025
                             </h3>
-                            <p class="text-slate-600 dark:text-slate-300 mb-4">
-                                Tìm hiểu về các nguyên tắc thiết kế giao diện hiện đại...
+                            <p class="text-slate-600 dark:text-slate-300 mb-6">
+                                Từ glassmorphism đến AI-powered design, khám phá tương lai của thiết kế giao diện...
                             </p>
-                            <button class="inline-flex items-center gap-2 text-blue-600 dark:text-blue-400 font-medium hover:gap-3 transition-all">
+                            <button class="inline-flex items-center gap-2 text-primary-600 dark:text-primary-400 font-semibold group-hover:gap-3 transition-all">
                                 Đọc thêm <i class="fas fa-arrow-right text-sm"></i>
                             </button>
                         </div>
                     </article>
 
-                    <article class="bg-white dark:bg-slate-700 rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-2">
+                    <article class="group bg-white dark:bg-slate-700 rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2">
                         <div class="h-48 overflow-hidden">
-                            <img src="https://images.unsplash.com/photo-1551650975-87deedd944c3?w=400&h=250&fit=crop" alt="Blog post" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300">
+                            <img src="https://images.unsplash.com/photo-1551650975-87deedd944c3?w=400&h=250&fit=crop" alt="Career Guide" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
                         </div>
-                        <div class="p-6">
+                        <div class="p-8">
                             <div class="flex items-center gap-4 mb-4 text-sm text-slate-500 dark:text-slate-400">
                                 <span>1 Tháng 8, 2025</span>
-                                <span class="bg-purple-600 text-white px-2 py-1 rounded text-xs font-medium">Career</span>
+                                <span class="bg-green-500 text-white px-3 py-1 rounded-full text-xs font-medium">Career</span>
                             </div>
-                            <h3 class="text-xl font-semibold mb-4 text-slate-800 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
-                                Lộ trình học lập trình cho người mới
+                            <h3 class="text-xl font-bold mb-4 text-slate-800 dark:text-white group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
+                                Lộ trình Full-stack Developer
                             </h3>
-                            <p class="text-slate-600 dark:text-slate-300 mb-4">
-                                Hướng dẫn từng bước để bắt đầu sự nghiệp lập trình...
+                            <p class="text-slate-600 dark:text-slate-300 mb-6">
+                                Hướng dẫn chi tiết để trở thành full-stack developer chuyên nghiệp trong 2025...
                             </p>
-                            <button class="inline-flex items-center gap-2 text-blue-600 dark:text-blue-400 font-medium hover:gap-3 transition-all">
+                            <button class="inline-flex items-center gap-2 text-primary-600 dark:text-primary-400 font-semibold group-hover:gap-3 transition-all">
                                 Đọc thêm <i class="fas fa-arrow-right text-sm"></i>
                             </button>
                         </div>
                     </article>
                 </div>
-                <div class="text-center mt-12">
-                    <button onclick="showSection('blog')" class="bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 text-white px-8 py-3 rounded-lg font-medium transition-colors">
+                
+                <div class="text-center">
+                    <button onclick="showSection('blog')" class="bg-gradient-to-r from-primary-500 to-purple-500 hover:from-primary-600 hover:to-purple-600 text-white px-8 py-4 rounded-2xl font-semibold transition-all duration-300 transform hover:-translate-y-1 hover:shadow-xl">
                         Xem tất cả bài viết
                     </button>
                 </div>
@@ -253,128 +362,158 @@
 
     <!-- About Section -->
     <section id="about-section" class="section">
-        <div class="py-20 bg-slate-50 dark:bg-slate-800">
-            <div class="max-w-6xl mx-auto px-5">
-                <div class="flex flex-col lg:flex-row items-center gap-12 text-center lg:text-left">
-                    <div class="about-image flex-shrink-0">
-                        <img src="assets/avatar.jpg" alt="Ảnh cá nhân" class="w-48 h-48 lg:w-64 lg:h-64 rounded-full object-cover shadow-xl">
-                    </div>
-                    <div class="about-text">
-                        <h1 class="text-4xl lg:text-5xl font-bold mb-2 text-slate-800 dark:text-slate-200">Xin chào, tôi là Trần Ngọc Hưng</h1>
-                        <p class="text-xl text-blue-600 dark:text-blue-400 font-medium mb-4">Full-stack Developer & UI/UX Designer</p>
-                        <p class="text-lg text-slate-600 dark:text-slate-300 leading-relaxed">
-                            Mình là một developer đam mê công nghệ với những điều mới mẻ và không thích bị gò bó, rất thích tìm hiểu và xây dựng các ứng dụng web và mobile. 
-                            Mình yêu thích việc tạo ra những sản phẩm không chỉ đẹp mắt mà còn mang lại trải nghiệm tuyệt vời cho người dùng.
+        <div class="py-24 bg-white dark:bg-slate-900 pt-32">
+            <div class="max-w-7xl mx-auto px-6">
+                <div class="grid lg:grid-cols-2 gap-16 items-center mb-20">
+                    <div class="order-2 lg:order-1">
+                        <h1 class="text-4xl md:text-6xl font-black mb-6">
+                            Xin chào, tôi là <span class="gradient-text">Trần Ngọc Hưng</span>
+                        </h1>
+                        <p class="text-xl text-primary-600 dark:text-primary-400 font-semibold mb-6">Full-stack Developer & UI/UX Designer</p>
+                        <p class="text-lg text-slate-600 dark:text-slate-300 leading-relaxed mb-8">
+                            Tôi là sinh viên năm 4 ngành Công nghệ Thông tin, chuyên ngành Kỹ thuật phần mềm tại Đại học Đà Lạt. 
+                            Với đam mê công nghệ và sáng tạo, tôi luôn tìm kiếm cơ hội để học hỏi và phát triển những sản phẩm 
+                            có ý nghĩa, mang lại giá trị thực cho người dùng.
                         </p>
+                        <div class="grid grid-cols-2 gap-6 mb-8">
+                            <div>
+                                <h4 class="font-semibold text-slate-800 dark:text-white mb-2">Chuyên ngành</h4>
+                                <p class="text-slate-600 dark:text-slate-300">Kỹ thuật phần mềm</p>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-slate-800 dark:text-white mb-2">Trường</h4>
+                                <p class="text-slate-600 dark:text-slate-300">Đại học Đà Lạt</p>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-slate-800 dark:text-white mb-2">Lớp</h4>
+                                <p class="text-slate-600 dark:text-slate-300">CTK46-PM</p>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-slate-800 dark:text-white mb-2">Năm học</h4>
+                                <p class="text-slate-600 dark:text-slate-300">Năm 4</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="order-1 lg:order-2 text-center lg:text-right">
+                        <div class="relative inline-block">
+                            <img src="hung.jpg" alt="Trần Ngọc Hưng" class="w-64 h-64 lg:w-80 lg:h-80 rounded-3xl object-cover shadow-2xl">
+                            <div class="absolute -bottom-6 -right-6 w-24 h-24 bg-gradient-to-r from-primary-500 to-purple-500 rounded-2xl flex items-center justify-center text-white font-bold text-lg shadow-xl">
+                                <i class="fas fa-code text-2xl"></i>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
 
-        <div class="py-20 bg-white dark:bg-slate-900">
-            <div class="max-w-6xl mx-auto px-5">
+                <!-- Experience & Skills -->
                 <div class="grid lg:grid-cols-3 gap-12">
                     <div class="lg:col-span-2">
-                        <h2 class="text-3xl font-bold mb-6 text-slate-800 dark:text-slate-200">Câu chuyện của tôi</h2>
-                        <div class="prose prose-lg dark:prose-invert max-w-none">
-                            <p class="text-slate-600 dark:text-slate-300 leading-relaxed mb-6">
-                                Hành trình của tôi bắt đầu từ năm 2019 khi tôi viết dòng code đầu tiên. Từ một sinh viên 
-                                ngành CNTT với đam mê khám phá, tôi đã không ngừng học hỏi và phát triển kỹ năng của mình.
+                        <h2 class="text-3xl font-bold mb-8 text-slate-800 dark:text-white">Câu chuyện của tôi</h2>
+                        <div class="space-y-6 text-lg text-slate-600 dark:text-slate-300 leading-relaxed">
+                            <p>
+                                Hành trình lập trình của tôi bắt đầu từ năm 2019 khi lần đầu tiên tôi viết dòng code "Hello World". 
+                                Từ một sinh viên tò mò về công nghệ, tôi đã dần khám phá và yêu thích việc tạo ra những sản phẩm số.
                             </p>
                             
-                            <p class="text-slate-600 dark:text-slate-300 leading-relaxed mb-8">
-                                Hiện tại, tôi làm việc như một Full-stack Developer, chuyên về React, Node.js và các công nghệ 
-                                web hiện đại. Tôi cũng có niềm đam mê với UI/UX Design và luôn cố gắng tạo ra những sản phẩm 
-                                vừa đẹp vừa dễ sử dụng.
+                            <p>
+                                Qua những năm học tập và thực hành, tôi đã tích lũy được kinh nghiệm trong nhiều lĩnh vực: 
+                                từ frontend development với React và Vue.js, backend với Node.js và Python, đến UI/UX design 
+                                với Figma và Adobe Creative Suite.
                             </p>
 
-                            <h3 class="text-2xl font-bold mb-4 text-slate-800 dark:text-slate-200">Kinh nghiệm & Thành tựu</h3>
-                            <ul class="space-y-3 mb-8">
-                                <li class="flex items-center text-slate-600 dark:text-slate-300">
-                                    <i class="fas fa-check-circle text-blue-500 dark:text-blue-400 mr-3"></i> 
-                                    50+ dự án web đã hoàn thành
-                                </li>
-                                <li class="flex items-center text-slate-600 dark:text-slate-300">
-                                    <i class="fas fa-check-circle text-blue-500 dark:text-blue-400 mr-3"></i> 
-                                    Chứng chỉ AWS Solutions Architect
-                                </li>
-                                <li class="flex items-center text-slate-600 dark:text-slate-300">
-                                    <i class="fas fa-check-circle text-blue-500 dark:text-blue-400 mr-3"></i> 
-                                    Speaker tại các sự kiện tech local
-                                </li>
-                                <li class="flex items-center text-slate-600 dark:text-slate-300">
-                                    <i class="fas fa-check-circle text-blue-500 dark:text-blue-400 mr-3"></i> 
-                                    Mentor cho các developer trẻ
-                                </li>
-                            </ul>
+                            <p>
+                                Điều tôi yêu thích nhất trong lập trình là khả năng biến ý tưởng thành hiện thực. 
+                                Mỗi dự án đều là một cơ hội để học hỏi điều mới và thử thách bản thân với những công nghệ tiên tiến.
+                            </p>
+                        </div>
 
-                            <blockquote class="border-l-4 border-blue-500 dark:border-blue-400 pl-6 italic text-lg text-slate-600 dark:text-slate-300 mb-6">
-                                "Code is like humor. When you have to explain it, it's bad." - Cory House
-                            </blockquote>
+                        <!-- Achievements -->
+                        <div class="mt-12">
+                            <h3 class="text-2xl font-bold mb-6 text-slate-800 dark:text-white">Thành tựu & Kinh nghiệm</h3>
+                            <div class="space-y-4">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-3 h-3 bg-primary-500 rounded-full"></div>
+                                    <span class="text-slate-600 dark:text-slate-300">50+ dự án web và mobile app hoàn thành</span>
+                                </div>
+                                <div class="flex items-center gap-3">
+                                    <div class="w-3 h-3 bg-primary-500 rounded-full"></div>
+                                    <span class="text-slate-600 dark:text-slate-300">Chứng chỉ Google UX Design Professional</span>
+                                </div>
+                                <div class="flex items-center gap-3">
+                                    <div class="w-3 h-3 bg-primary-500 rounded-full"></div>
+                                    <span class="text-slate-600 dark:text-slate-300">Thành viên câu lạc bộ Lập trình DLU</span>
+                                </div>
+                                <div class="flex items-center gap-3">
+                                    <div class="w-3 h-3 bg-primary-500 rounded-full"></div>
+                                    <span class="text-slate-600 dark:text-slate-300">Mentor cho các bạn sinh viên junior</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
+                    <!-- Skills & Stats -->
                     <div class="space-y-8">
-                        <div class="bg-white dark:bg-slate-800 rounded-lg shadow-lg p-6">
-                            <h3 class="text-xl font-bold mb-4 text-slate-800 dark:text-slate-200">Kỹ năng chính</h3>
-                            <div class="space-y-4">
+                        <!-- Skills -->
+                        <div class="bg-white dark:bg-slate-800 rounded-3xl p-8 shadow-lg">
+                            <h3 class="text-2xl font-bold mb-6 text-slate-800 dark:text-white">Kỹ năng chính</h3>
+                            <div class="space-y-6">
                                 <div>
                                     <div class="flex justify-between mb-2">
-                                        <span class="text-slate-700 dark:text-slate-300">JavaScript/React</span>
-                                        <span class="text-slate-500 dark:text-slate-400">95%</span>
+                                        <span class="font-medium text-slate-700 dark:text-slate-300">JavaScript/React</span>
+                                        <span class="text-primary-600 dark:text-primary-400">90%</span>
                                     </div>
                                     <div class="bg-slate-200 dark:bg-slate-700 rounded-full h-2">
-                                        <div class="bg-blue-600 dark:bg-blue-400 h-2 rounded-full" style="width: 95%"></div>
+                                        <div class="skill-bar bg-gradient-to-r from-primary-500 to-purple-500 h-2 rounded-full" style="--width: 90%; width: 90%"></div>
                                     </div>
                                 </div>
                                 <div>
                                     <div class="flex justify-between mb-2">
-                                        <span class="text-slate-700 dark:text-slate-300">Node.js</span>
-                                        <span class="text-slate-500 dark:text-slate-400">90%</span>
+                                        <span class="font-medium text-slate-700 dark:text-slate-300">Node.js/Express</span>
+                                        <span class="text-primary-600 dark:text-primary-400">85%</span>
                                     </div>
                                     <div class="bg-slate-200 dark:bg-slate-700 rounded-full h-2">
-                                        <div class="bg-blue-600 dark:bg-blue-400 h-2 rounded-full" style="width: 90%"></div>
+                                        <div class="skill-bar bg-gradient-to-r from-green-500 to-blue-500 h-2 rounded-full" style="--width: 85%; width: 85%"></div>
                                     </div>
                                 </div>
                                 <div>
                                     <div class="flex justify-between mb-2">
-                                        <span class="text-slate-700 dark:text-slate-300">UI/UX Design</span>
-                                        <span class="text-slate-500 dark:text-slate-400">85%</span>
+                                        <span class="font-medium text-slate-700 dark:text-slate-300">UI/UX Design</span>
+                                        <span class="text-primary-600 dark:text-primary-400">88%</span>
                                     </div>
                                     <div class="bg-slate-200 dark:bg-slate-700 rounded-full h-2">
-                                        <div class="bg-blue-600 dark:bg-blue-400 h-2 rounded-full" style="width: 85%"></div>
+                                        <div class="skill-bar bg-gradient-to-r from-purple-500 to-pink-500 h-2 rounded-full" style="--width: 88%; width: 88%"></div>
                                     </div>
                                 </div>
                                 <div>
                                     <div class="flex justify-between mb-2">
-                                        <span class="text-slate-700 dark:text-slate-300">Python</span>
-                                        <span class="text-slate-500 dark:text-slate-400">80%</span>
+                                        <span class="font-medium text-slate-700 dark:text-slate-300">Python/Django</span>
+                                        <span class="text-primary-600 dark:text-primary-400">80%</span>
                                     </div>
                                     <div class="bg-slate-200 dark:bg-slate-700 rounded-full h-2">
-                                        <div class="bg-blue-600 dark:bg-blue-400 h-2 rounded-full" style="width: 80%"></div>
+                                        <div class="skill-bar bg-gradient-to-r from-yellow-500 to-orange-500 h-2 rounded-full" style="--width: 80%; width: 80%"></div>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="bg-white dark:bg-slate-800 rounded-lg shadow-lg p-6">
-                            <h3 class="text-xl font-bold mb-4 text-slate-800 dark:text-slate-200">Thống kê</h3>
-                            <div class="grid grid-cols-2 gap-4">
+                        <!-- Stats -->
+                        <div class="bg-gradient-to-br from-primary-50 to-purple-50 dark:from-slate-800 dark:to-slate-700 rounded-3xl p-8">
+                            <h3 class="text-2xl font-bold mb-6 text-slate-800 dark:text-white">Thống kê</h3>
+                            <div class="grid grid-cols-2 gap-6">
                                 <div class="text-center">
-                                    <span class="block text-3xl font-bold text-blue-600 dark:text-blue-400">50+</span>
-                                    <span class="text-slate-600 dark:text-slate-300">Dự án</span>
+                                    <div class="text-3xl font-black gradient-text mb-2">50+</div>
+                                    <div class="text-sm text-slate-600 dark:text-slate-300">Dự án</div>
                                 </div>
                                 <div class="text-center">
-                                    <span class="block text-3xl font-bold text-blue-600 dark:text-blue-400">5+</span>
-                                    <span class="text-slate-600 dark:text-slate-300">Năm kinh nghiệm</span>
+                                    <div class="text-3xl font-black gradient-text mb-2">5+</div>
+                                    <div class="text-sm text-slate-600 dark:text-slate-300">Năm kinh nghiệm</div>
                                 </div>
                                 <div class="text-center">
-                                    <span class="block text-3xl font-bold text-blue-600 dark:text-blue-400">30+</span>
-                                    <span class="text-slate-600 dark:text-slate-300">Khách hàng hài lòng</span>
+                                    <div class="text-3xl font-black gradient-text mb-2">30+</div>
+                                    <div class="text-sm text-slate-600 dark:text-slate-300">Khách hàng</div>
                                 </div>
                                 <div class="text-center">
-                                    <span class="block text-3xl font-bold text-blue-600 dark:text-blue-400">24/7</span>
-                                    <span class="text-slate-600 dark:text-slate-300">Hỗ trợ</span>
+                                    <div class="text-3xl font-black gradient-text mb-2">24/7</div>
+                                    <div class="text-sm text-slate-600 dark:text-slate-300">Hỗ trợ</div>
                                 </div>
                             </div>
                         </div>
@@ -386,27 +525,27 @@
 
     <!-- Portfolio Section -->
     <section id="portfolio-section" class="section">
-        <div class="py-20 bg-slate-50 dark:bg-slate-800">
-            <div class="max-w-6xl mx-auto px-5">
+        <div class="py-24 bg-slate-50 dark:bg-slate-800 pt-32">
+            <div class="max-w-7xl mx-auto px-6">
                 <div class="text-center mb-16">
-                    <h2 class="text-4xl md:text-5xl font-bold text-slate-800 dark:text-white mb-4">Dự án của tôi</h2>
-                    <p class="text-slate-600 dark:text-slate-300 text-lg max-w-2xl mx-auto">
-                        Khám phá các dự án tôi đã thực hiện, từ web applications đến mobile apps
+                    <h2 class="text-4xl md:text-6xl font-black gradient-text mb-6">Dự án của tôi</h2>
+                    <p class="text-xl text-slate-600 dark:text-slate-300 max-w-3xl mx-auto">
+                        Khám phá những sản phẩm tôi đã tạo ra - từ web applications đến mobile apps và UI/UX designs
                     </p>
                 </div>
 
                 <!-- Filter Buttons -->
-                <div class="flex flex-wrap justify-center gap-4 mb-12">
-                    <button class="filter-btn active bg-blue-600 text-white px-6 py-2 rounded-lg font-medium hover:bg-blue-700 transition-colors" data-filter="all">
+                <div class="flex flex-wrap justify-center gap-4 mb-16">
+                    <button class="filter-btn active bg-gradient-to-r from-primary-500 to-purple-500 text-white px-8 py-3 rounded-2xl font-semibold transition-all duration-300 hover:shadow-xl hover:-translate-y-1" data-filter="all">
                         Tất cả
                     </button>
-                    <button class="filter-btn bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300 px-6 py-2 rounded-lg font-medium hover:bg-slate-300 dark:hover:bg-slate-600 transition-colors" data-filter="web">
+                    <button class="filter-btn bg-white dark:bg-slate-700 text-slate-700 dark:text-slate-300 px-8 py-3 rounded-2xl font-semibold border border-slate-200 dark:border-slate-600 hover:border-primary-500 dark:hover:border-primary-400 hover:text-primary-600 dark:hover:text-primary-400 transition-all duration-300" data-filter="web">
                         Web Apps
                     </button>
-                    <button class="filter-btn bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300 px-6 py-2 rounded-lg font-medium hover:bg-slate-300 dark:hover:bg-slate-600 transition-colors" data-filter="mobile">
+                    <button class="filter-btn bg-white dark:bg-slate-700 text-slate-700 dark:text-slate-300 px-8 py-3 rounded-2xl font-semibold border border-slate-200 dark:border-slate-600 hover:border-primary-500 dark:hover:border-primary-400 hover:text-primary-600 dark:hover:text-primary-400 transition-all duration-300" data-filter="mobile">
                         Mobile Apps
                     </button>
-                    <button class="filter-btn bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300 px-6 py-2 rounded-lg font-medium hover:bg-slate-300 dark:hover:bg-slate-600 transition-colors" data-filter="design">
+                    <button class="filter-btn bg-white dark:bg-slate-700 text-slate-700 dark:text-slate-300 px-8 py-3 rounded-2xl font-semibold border border-slate-200 dark:border-slate-600 hover:border-primary-500 dark:hover:border-primary-400 hover:text-primary-600 dark:hover:text-primary-400 transition-all duration-300" data-filter="design">
                         UI/UX Design
                     </button>
                 </div>
@@ -414,155 +553,25 @@
                 <!-- Portfolio Grid -->
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="portfolio-grid">
                     <!-- Project 1 -->
-                    <div class="portfolio-item web bg-white dark:bg-slate-700 rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
+                    <div class="portfolio-item web bg-white dark:bg-slate-700 rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl">
                         <div class="h-48 overflow-hidden">
-                            <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&h=250&fit=crop" alt="E-commerce Platform" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300">
+                            <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&h=250&fit=crop" alt="E-commerce Platform" class="w-full h-full object-cover">
                         </div>
-                        <div class="p-6">
-                            <h3 class="text-xl font-semibold mb-2 text-slate-800 dark:text-white">E-commerce Platform</h3>
-                            <p class="text-slate-600 dark:text-slate-300 mb-4">
-                                Nền tảng thương mại điện tử hoàn chỉnh với React & Node.js
+                        <div class="p-8">
+                            <h3 class="text-2xl font-bold mb-3 text-slate-800 dark:text-white">E-commerce Platform</h3>
+                            <p class="text-slate-600 dark:text-slate-300 mb-6 leading-relaxed">
+                                Nền tảng thương mại điện tử full-featured với React, Node.js và real-time notifications
                             </p>
-                            <div class="flex flex-wrap gap-2 mb-4">
-                                <span class="px-2 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 text-xs rounded">React</span>
-                                <span class="px-2 py-1 bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400 text-xs rounded">Node.js</span>
-                                <span class="px-2 py-1 bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 text-xs rounded">MongoDB</span>
+                            <div class="flex flex-wrap gap-2 mb-6">
+                                <span class="px-3 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 text-sm rounded-full font-medium">React</span>
+                                <span class="px-3 py-1 bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400 text-sm rounded-full font-medium">Node.js</span>
+                                <span class="px-3 py-1 bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 text-sm rounded-full font-medium">MongoDB</span>
                             </div>
-                            <div class="flex gap-3">
-                                <button class="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg transition-colors">
-                                    <i class="fas fa-external-link-alt mr-2"></i>Demo
+                            <div class="flex gap-4">
+                                <button class="flex-1 bg-gradient-to-r from-primary-500 to-purple-500 hover:from-primary-600 hover:to-purple-600 text-white py-3 px-4 rounded-xl font-semibold transition-all duration-300 hover:-translate-y-1">
+                                    <i class="fas fa-external-link-alt mr-2"></i>Live Demo
                                 </button>
-                                <button class="flex-1 border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-600 py-2 px-4 rounded-lg transition-colors">
-                                    <i class="fab fa-github mr-2"></i>Code
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Project 2 -->
-                    <div class="portfolio-item mobile bg-white dark:bg-slate-700 rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
-                        <div class="h-48 overflow-hidden">
-                            <img src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=400&h=250&fit=crop" alt="Task Management App" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300">
-                        </div>
-                        <div class="p-6">
-                            <h3 class="text-xl font-semibold mb-2 text-slate-800 dark:text-white">Task Management App</h3>
-                            <p class="text-slate-600 dark:text-slate-300 mb-4">
-                                Ứng dụng quản lý công việc với React Native
-                            </p>
-                            <div class="flex flex-wrap gap-2 mb-4">
-                                <span class="px-2 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 text-xs rounded">React Native</span>
-                                <span class="px-2 py-1 bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400 text-xs rounded">Firebase</span>
-                                <span class="px-2 py-1 bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 text-xs rounded">Redux</span>
-                            </div>
-                            <div class="flex gap-3">
-                                <button class="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg transition-colors">
-                                    <i class="fas fa-mobile-alt mr-2"></i>App Store
-                                </button>
-                                <button class="flex-1 border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-600 py-2 px-4 rounded-lg transition-colors">
-                                    <i class="fab fa-github mr-2"></i>Code
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Project 3 -->
-                    <div class="portfolio-item design bg-white dark:bg-slate-700 rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
-                        <div class="h-48 overflow-hidden">
-                            <img src="https://images.unsplash.com/photo-1561070791-2526d30994b5?w=400&h=250&fit=crop" alt="Banking App Design" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300">
-                        </div>
-                        <div class="p-6">
-                            <h3 class="text-xl font-semibold mb-2 text-slate-800 dark:text-white">Banking App UI Design</h3>
-                            <p class="text-slate-600 dark:text-slate-300 mb-4">
-                                Thiết kế giao diện ứng dụng ngân hàng hiện đại
-                            </p>
-                            <div class="flex flex-wrap gap-2 mb-4">
-                                <span class="px-2 py-1 bg-pink-100 dark:bg-pink-900/30 text-pink-600 dark:text-pink-400 text-xs rounded">Figma</span>
-                                <span class="px-2 py-1 bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 text-xs rounded">UI/UX</span>
-                                <span class="px-2 py-1 bg-yellow-100 dark:bg-yellow-900/30 text-yellow-600 dark:text-yellow-400 text-xs rounded">Prototype</span>
-                            </div>
-                            <div class="flex gap-3">
-                                <button class="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg transition-colors">
-                                    <i class="fas fa-eye mr-2"></i>Xem Design
-                                </button>
-                                <button class="flex-1 border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-600 py-2 px-4 rounded-lg transition-colors">
-                                    <i class="fas fa-download mr-2"></i>Download
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Project 4 -->
-                    <div class="portfolio-item web bg-white dark:bg-slate-700 rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
-                        <div class="h-48 overflow-hidden">
-                            <img src="https://images.unsplash.com/photo-1551650975-87deedd944c3?w=400&h=250&fit=crop" alt="Learning Platform" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300">
-                        </div>
-                        <div class="p-6">
-                            <h3 class="text-xl font-semibold mb-2 text-slate-800 dark:text-white">Online Learning Platform</h3>
-                            <p class="text-slate-600 dark:text-slate-300 mb-4">
-                                Nền tảng học trực tuyến với video streaming
-                            </p>
-                            <div class="flex flex-wrap gap-2 mb-4">
-                                <span class="px-2 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 text-xs rounded">Vue.js</span>
-                                <span class="px-2 py-1 bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400 text-xs rounded">Laravel</span>
-                                <span class="px-2 py-1 bg-gray-100 dark:bg-gray-900/30 text-gray-600 dark:text-gray-400 text-xs rounded">MySQL</span>
-                            </div>
-                            <div class="flex gap-3">
-                                <button class="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg transition-colors">
-                                    <i class="fas fa-external-link-alt mr-2"></i>Demo
-                                </button>
-                                <button class="flex-1 border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-600 py-2 px-4 rounded-lg transition-colors">
-                                    <i class="fab fa-github mr-2"></i>Code
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Project 5 -->
-                    <div class="portfolio-item mobile bg-white dark:bg-slate-700 rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
-                        <div class="h-48 overflow-hidden">
-                            <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=250&fit=crop" alt="Weather App" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300">
-                        </div>
-                        <div class="p-6">
-                            <h3 class="text-xl font-semibold mb-2 text-slate-800 dark:text-white">Weather Forecast App</h3>
-                            <p class="text-slate-600 dark:text-slate-300 mb-4">
-                                Ứng dụng dự báo thời tiết với animations đẹp mắt
-                            </p>
-                            <div class="flex flex-wrap gap-2 mb-4">
-                                <span class="px-2 py-1 bg-cyan-100 dark:bg-cyan-900/30 text-cyan-600 dark:text-cyan-400 text-xs rounded">Flutter</span>
-                                <span class="px-2 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 text-xs rounded">API</span>
-                                <span class="px-2 py-1 bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400 text-xs rounded">Animations</span>
-                            </div>
-                            <div class="flex gap-3">
-                                <button class="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg transition-colors">
-                                    <i class="fas fa-mobile-alt mr-2"></i>Play Store
-                                </button>
-                                <button class="flex-1 border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-600 py-2 px-4 rounded-lg transition-colors">
-                                    <i class="fab fa-github mr-2"></i>Code
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Project 6 -->
-                    <div class="portfolio-item design bg-white dark:bg-slate-700 rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
-                        <div class="h-48 overflow-hidden">
-                            <img src="https://images.unsplash.com/photo-1586717791821-3f44a563fa4c?w=400&h=250&fit=crop" alt="Restaurant Website Design" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300">
-                        </div>
-                        <div class="p-6">
-                            <h3 class="text-xl font-semibold mb-2 text-slate-800 dark:text-white">Restaurant Website Design</h3>
-                            <p class="text-slate-600 dark:text-slate-300 mb-4">
-                                Thiết kế website nhà hàng với trải nghiệm người dùng tối ưu
-                            </p>
-                            <div class="flex flex-wrap gap-2 mb-4">
-                                <span class="px-2 py-1 bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 text-xs rounded">Adobe XD</span>
-                                <span class="px-2 py-1 bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400 text-xs rounded">Responsive</span>
-                                <span class="px-2 py-1 bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400 text-xs rounded">UX Research</span>
-                            </div>
-                            <div class="flex gap-3">
-                                <button class="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg transition-colors">
-                                    <i class="fas fa-eye mr-2"></i>Xem Design
-                                </button>
-                                <button class="flex-1 border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-600 py-2 px-4 rounded-lg transition-colors">
+                                <button class="flex-1 border-2 border-slate-200 dark:border-slate-600 hover:border-primary-500 dark:hover:border-primary-400 text-slate-700 dark:text-slate-300 hover:text-primary-600 dark:hover:text-primary-400 py-3 px-4 rounded-xl font-semibold transition-all duration-300">
                                     <i class="fas fa-download mr-2"></i>Download
                                 </button>
                             </div>
@@ -575,38 +584,67 @@
 
     <!-- Blog Section -->
     <section id="blog-section" class="section">
-        <div class="py-20 bg-white dark:bg-slate-900">
-            <div class="max-w-6xl mx-auto px-5">
+        <div class="py-24 bg-white dark:bg-slate-900 pt-32">
+            <div class="max-w-7xl mx-auto px-6">
                 <div class="text-center mb-16">
-                    <h2 class="text-4xl md:text-5xl font-bold text-slate-800 dark:text-white mb-4">Blog & Bài viết</h2>
-                    <p class="text-slate-600 dark:text-slate-300 text-lg max-w-2xl mx-auto">
-                        Chia sẻ kiến thức, kinh nghiệm và những suy nghĩ về công nghệ
+                    <h2 class="text-4xl md:text-6xl font-black gradient-text mb-6">Blog & Bài viết</h2>
+                    <p class="text-xl text-slate-600 dark:text-slate-300 max-w-3xl mx-auto">
+                        Chia sẻ kiến thức, kinh nghiệm và những insight về công nghệ, thiết kế và phát triển sản phẩm
                     </p>
                 </div>
 
+                <!-- Featured Post -->
+                <div class="mb-16">
+                    <article class="bg-gradient-to-r from-primary-500 to-purple-600 rounded-3xl overflow-hidden shadow-2xl">
+                        <div class="grid lg:grid-cols-2 gap-0">
+                            <div class="h-64 lg:h-auto">
+                                <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=600&h=400&fit=crop" alt="Featured Post" class="w-full h-full object-cover">
+                            </div>
+                            <div class="p-12 text-white">
+                                <div class="flex items-center gap-4 mb-4">
+                                    <span class="bg-white/20 px-4 py-2 rounded-full text-sm font-medium">Featured</span>
+                                    <span class="text-sm opacity-80">10 Tháng 8, 2025</span>
+                                </div>
+                                <h3 class="text-3xl font-bold mb-4">
+                                    Tương lai của Web Development: AI và No-Code Revolution
+                                </h3>
+                                <p class="text-lg opacity-90 mb-6 leading-relaxed">
+                                    Khám phá cách AI đang thay đổi cách chúng ta phát triển web và tại sao developers 
+                                    vẫn cần thiết trong thời đại automation...
+                                </p>
+                                <button class="inline-flex items-center gap-3 bg-white text-primary-600 px-6 py-3 rounded-xl font-semibold hover:bg-opacity-90 transition-all duration-300 hover:-translate-y-1">
+                                    Đọc bài viết đầy đủ
+                                    <i class="fas fa-arrow-right"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+
+                <!-- Blog Posts Grid -->
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     <!-- Blog Post 1 -->
-                    <article class="bg-white dark:bg-slate-800 rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
+                    <article class="group bg-white dark:bg-slate-800 rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2">
                         <div class="h-48 overflow-hidden">
-                            <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=400&h=250&fit=crop" alt="React Best Practices" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300">
+                            <img src="https://images.unsplash.com/photo-1581291518633-83b4ebd1d83e?w=400&h=250&fit=crop" alt="React Performance" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
                         </div>
-                        <div class="p-6">
-                            <div class="flex items-center gap-4 mb-4 text-sm text-slate-500 dark:text-slate-400">
-                                <span>5 Tháng 8, 2025</span>
-                                <span class="bg-blue-600 text-white px-2 py-1 rounded text-xs font-medium">React</span>
+                        <div class="p-8">
+                            <div class="flex items-center justify-between mb-4">
+                                <span class="bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 px-3 py-1 rounded-full text-sm font-medium">React</span>
+                                <span class="text-sm text-slate-500 dark:text-slate-400">5 Tháng 8, 2025</span>
                             </div>
-                            <h3 class="text-xl font-semibold mb-4 text-slate-800 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 transition-colors cursor-pointer">
-                                React Best Practices 2025: Code như một chuyên gia
+                            <h3 class="text-xl font-bold mb-4 text-slate-800 dark:text-white group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
+                                React Performance: Tối ưu từ cơ bản đến nâng cao
                             </h3>
-                            <p class="text-slate-600 dark:text-slate-300 mb-4 line-clamp-3">
-                                Khám phá những best practices mới nhất trong React development, từ hooks đến performance optimization...
+                            <p class="text-slate-600 dark:text-slate-300 mb-6 line-clamp-3">
+                                Hướng dẫn chi tiết các kỹ thuật optimization trong React: memo, useMemo, useCallback và những pattern hiện đại...
                             </p>
                             <div class="flex items-center justify-between">
-                                <div class="flex items-center gap-2">
+                                <div class="flex items-center gap-3">
                                     <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=32&h=32&fit=crop&crop=face" alt="Author" class="w-8 h-8 rounded-full">
-                                    <span class="text-sm text-slate-600 dark:text-slate-300">Alex Nguyen</span>
+                                    <span class="text-sm text-slate-600 dark:text-slate-300">Trần Ngọc Hưng</span>
                                 </div>
-                                <button class="inline-flex items-center gap-2 text-blue-600 dark:text-blue-400 font-medium hover:gap-3 transition-all">
+                                <button class="inline-flex items-center gap-2 text-primary-600 dark:text-primary-400 font-semibold group-hover:gap-3 transition-all">
                                     Đọc thêm <i class="fas fa-arrow-right text-sm"></i>
                                 </button>
                             </div>
@@ -614,27 +652,27 @@
                     </article>
 
                     <!-- Blog Post 2 -->
-                    <article class="bg-white dark:bg-slate-800 rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
+                    <article class="group bg-white dark:bg-slate-800 rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2">
                         <div class="h-48 overflow-hidden">
-                            <img src="https://images.unsplash.com/photo-1581291518633-83b4ebd1d83e?w=400&h=250&fit=crop" alt="UI Design Trends" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300">
+                            <img src="https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=400&h=250&fit=crop" alt="UI Design" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
                         </div>
-                        <div class="p-6">
-                            <div class="flex items-center gap-4 mb-4 text-sm text-slate-500 dark:text-slate-400">
-                                <span>3 Tháng 8, 2025</span>
-                                <span class="bg-purple-600 text-white px-2 py-1 rounded text-xs font-medium">Design</span>
+                        <div class="p-8">
+                            <div class="flex items-center justify-between mb-4">
+                                <span class="bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 px-3 py-1 rounded-full text-sm font-medium">Design</span>
+                                <span class="text-sm text-slate-500 dark:text-slate-400">3 Tháng 8, 2025</span>
                             </div>
-                            <h3 class="text-xl font-semibold mb-4 text-slate-800 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 transition-colors cursor-pointer">
-                                UI Design Trends 2025: Tương lai của giao diện người dùng
+                            <h3 class="text-xl font-bold mb-4 text-slate-800 dark:text-white group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
+                                Design System: Xây dựng UI consistent và scalable
                             </h3>
-                            <p class="text-slate-600 dark:text-slate-300 mb-4 line-clamp-3">
-                                Từ glassmorphism đến neomorphism, khám phá những xu hướng thiết kế UI sẽ thống trị năm 2025...
+                            <p class="text-slate-600 dark:text-slate-300 mb-6 line-clamp-3">
+                                Tạo và maintain một design system hiệu quả cho team, từ tokens đến components và documentation...
                             </p>
                             <div class="flex items-center justify-between">
-                                <div class="flex items-center gap-2">
+                                <div class="flex items-center gap-3">
                                     <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=32&h=32&fit=crop&crop=face" alt="Author" class="w-8 h-8 rounded-full">
-                                    <span class="text-sm text-slate-600 dark:text-slate-300">Alex Nguyen</span>
+                                    <span class="text-sm text-slate-600 dark:text-slate-300">Trần Ngọc Hưng</span>
                                 </div>
-                                <button class="inline-flex items-center gap-2 text-blue-600 dark:text-blue-400 font-medium hover:gap-3 transition-all">
+                                <button class="inline-flex items-center gap-2 text-primary-600 dark:text-primary-400 font-semibold group-hover:gap-3 transition-all">
                                     Đọc thêm <i class="fas fa-arrow-right text-sm"></i>
                                 </button>
                             </div>
@@ -642,27 +680,27 @@
                     </article>
 
                     <!-- Blog Post 3 -->
-                    <article class="bg-white dark:bg-slate-800 rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
+                    <article class="group bg-white dark:bg-slate-800 rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2">
                         <div class="h-48 overflow-hidden">
-                            <img src="https://images.unsplash.com/photo-1551650975-87deedd944c3?w=400&h=250&fit=crop" alt="Career Development" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300">
+                            <img src="https://images.unsplash.com/photo-1551650975-87deedd944c3?w=400&h=250&fit=crop" alt="Career Tips" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
                         </div>
-                        <div class="p-6">
-                            <div class="flex items-center gap-4 mb-4 text-sm text-slate-500 dark:text-slate-400">
-                                <span>1 Tháng 8, 2025</span>
-                                <span class="bg-green-600 text-white px-2 py-1 rounded text-xs font-medium">Career</span>
+                        <div class="p-8">
+                            <div class="flex items-center justify-between mb-4">
+                                <span class="bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400 px-3 py-1 rounded-full text-sm font-medium">Career</span>
+                                <span class="text-sm text-slate-500 dark:text-slate-400">1 Tháng 8, 2025</span>
                             </div>
-                            <h3 class="text-xl font-semibold mb-4 text-slate-800 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 transition-colors cursor-pointer">
-                                Roadmap trở thành Full-stack Developer trong 6 tháng
+                            <h3 class="text-xl font-bold mb-4 text-slate-800 dark:text-white group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
+                                Junior to Senior: Lộ trình phát triển career
                             </h3>
-                            <p class="text-slate-600 dark:text-slate-300 mb-4 line-clamp-3">
-                                Lộ trình học tập chi tiết và thực tế để trở thành một full-stack developer chuyên nghiệp...
+                            <p class="text-slate-600 dark:text-slate-300 mb-6 line-clamp-3">
+                                Những skills và mindset cần thiết để grow từ junior đến senior developer trong ngành tech...
                             </p>
                             <div class="flex items-center justify-between">
-                                <div class="flex items-center gap-2">
+                                <div class="flex items-center gap-3">
                                     <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=32&h=32&fit=crop&crop=face" alt="Author" class="w-8 h-8 rounded-full">
-                                    <span class="text-sm text-slate-600 dark:text-slate-300">Alex Nguyen</span>
+                                    <span class="text-sm text-slate-600 dark:text-slate-300">Trần Ngọc Hưng</span>
                                 </div>
-                                <button class="inline-flex items-center gap-2 text-blue-600 dark:text-blue-400 font-medium hover:gap-3 transition-all">
+                                <button class="inline-flex items-center gap-2 text-primary-600 dark:text-primary-400 font-semibold group-hover:gap-3 transition-all">
                                     Đọc thêm <i class="fas fa-arrow-right text-sm"></i>
                                 </button>
                             </div>
@@ -670,27 +708,27 @@
                     </article>
 
                     <!-- Blog Post 4 -->
-                    <article class="bg-white dark:bg-slate-800 rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
+                    <article class="group bg-white dark:bg-slate-800 rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2">
                         <div class="h-48 overflow-hidden">
-                            <img src="https://images.unsplash.com/photo-1587620962725-abab7fe55159?w=400&h=250&fit=crop" alt="JavaScript Tips" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300">
+                            <img src="https://images.unsplash.com/photo-1587620962725-abab7fe55159?w=400&h=250&fit=crop" alt="JavaScript Advanced" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
                         </div>
-                        <div class="p-6">
-                            <div class="flex items-center gap-4 mb-4 text-sm text-slate-500 dark:text-slate-400">
-                                <span>28 Tháng 7, 2025</span>
-                                <span class="bg-yellow-600 text-white px-2 py-1 rounded text-xs font-medium">JavaScript</span>
+                        <div class="p-8">
+                            <div class="flex items-center justify-between mb-4">
+                                <span class="bg-yellow-100 dark:bg-yellow-900/30 text-yellow-600 dark:text-yellow-400 px-3 py-1 rounded-full text-sm font-medium">JavaScript</span>
+                                <span class="text-sm text-slate-500 dark:text-slate-400">28 Tháng 7, 2025</span>
                             </div>
-                            <h3 class="text-xl font-semibold mb-4 text-slate-800 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 transition-colors cursor-pointer">
-                                10 JavaScript Tips mà mọi developer nên biết
+                            <h3 class="text-xl font-bold mb-4 text-slate-800 dark:text-white group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
+                                JavaScript Advanced: Closures, Promises & Async/Await
                             </h3>
-                            <p class="text-slate-600 dark:text-slate-300 mb-4 line-clamp-3">
-                                Những tricks và techniques trong JavaScript giúp bạn viết code hiệu quả và chuyên nghiệp hơn...
+                            <p class="text-slate-600 dark:text-slate-300 mb-6 line-clamp-3">
+                                Deep dive vào những concept nâng cao của JavaScript với examples thực tế và use cases...
                             </p>
                             <div class="flex items-center justify-between">
-                                <div class="flex items-center gap-2">
+                                <div class="flex items-center gap-3">
                                     <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=32&h=32&fit=crop&crop=face" alt="Author" class="w-8 h-8 rounded-full">
-                                    <span class="text-sm text-slate-600 dark:text-slate-300">Alex Nguyen</span>
+                                    <span class="text-sm text-slate-600 dark:text-slate-300">Trần Ngọc Hưng</span>
                                 </div>
-                                <button class="inline-flex items-center gap-2 text-blue-600 dark:text-blue-400 font-medium hover:gap-3 transition-all">
+                                <button class="inline-flex items-center gap-2 text-primary-600 dark:text-primary-400 font-semibold group-hover:gap-3 transition-all">
                                     Đọc thêm <i class="fas fa-arrow-right text-sm"></i>
                                 </button>
                             </div>
@@ -698,27 +736,27 @@
                     </article>
 
                     <!-- Blog Post 5 -->
-                    <article class="bg-white dark:bg-slate-800 rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
+                    <article class="group bg-white dark:bg-slate-800 rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2">
                         <div class="h-48 overflow-hidden">
-                            <img src="https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=400&h=250&fit=crop" alt="Node.js Performance" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300">
+                            <img src="https://images.unsplash.com/photo-1550439062-609e1531270e?w=400&h=250&fit=crop" alt="Node.js" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
                         </div>
-                        <div class="p-6">
-                            <div class="flex items-center gap-4 mb-4 text-sm text-slate-500 dark:text-slate-400">
-                                <span>25 Tháng 7, 2025</span>
-                                <span class="bg-green-600 text-white px-2 py-1 rounded text-xs font-medium">Node.js</span>
+                        <div class="p-8">
+                            <div class="flex items-center justify-between mb-4">
+                                <span class="bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400 px-3 py-1 rounded-full text-sm font-medium">Node.js</span>
+                                <span class="text-sm text-slate-500 dark:text-slate-400">25 Tháng 7, 2025</span>
                             </div>
-                            <h3 class="text-xl font-semibold mb-4 text-slate-800 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 transition-colors cursor-pointer">
-                                Tối ưu performance Node.js: Từ cơ bản đến nâng cao
+                            <h3 class="text-xl font-bold mb-4 text-slate-800 dark:text-white group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
+                                Node.js Best Practices: Security và Performance
                             </h3>
-                            <p class="text-slate-600 dark:text-slate-300 mb-4 line-clamp-3">
-                                Hướng dẫn chi tiết về cách tối ưu hiệu suất ứng dụng Node.js, từ caching đến cluster...
+                            <p class="text-slate-600 dark:text-slate-300 mb-6 line-clamp-3">
+                                Guidelines để build Node.js applications secure, scalable và maintainable trong production...
                             </p>
                             <div class="flex items-center justify-between">
-                                <div class="flex items-center gap-2">
+                                <div class="flex items-center gap-3">
                                     <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=32&h=32&fit=crop&crop=face" alt="Author" class="w-8 h-8 rounded-full">
-                                    <span class="text-sm text-slate-600 dark:text-slate-300">Alex Nguyen</span>
+                                    <span class="text-sm text-slate-600 dark:text-slate-300">Trần Ngọc Hưng</span>
                                 </div>
-                                <button class="inline-flex items-center gap-2 text-blue-600 dark:text-blue-400 font-medium hover:gap-3 transition-all">
+                                <button class="inline-flex items-center gap-2 text-primary-600 dark:text-primary-400 font-semibold group-hover:gap-3 transition-all">
                                     Đọc thêm <i class="fas fa-arrow-right text-sm"></i>
                                 </button>
                             </div>
@@ -726,32 +764,48 @@
                     </article>
 
                     <!-- Blog Post 6 -->
-                    <article class="bg-white dark:bg-slate-800 rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
+                    <article class="group bg-white dark:bg-slate-800 rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2">
                         <div class="h-48 overflow-hidden">
-                            <img src="https://images.unsplash.com/photo-1550439062-609e1531270e?w=400&h=250&fit=crop" alt="Responsive Design" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300">
+                            <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=400&h=250&fit=crop" alt="Tech Trends" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
                         </div>
-                        <div class="p-6">
-                            <div class="flex items-center gap-4 mb-4 text-sm text-slate-500 dark:text-slate-400">
-                                <span>20 Tháng 7, 2025</span>
-                                <span class="bg-purple-600 text-white px-2 py-1 rounded text-xs font-medium">CSS</span>
+                        <div class="p-8">
+                            <div class="flex items-center justify-between mb-4">
+                                <span class="bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 px-3 py-1 rounded-full text-sm font-medium">Tech Trends</span>
+                                <span class="text-sm text-slate-500 dark:text-slate-400">20 Tháng 7, 2025</span>
                             </div>
-                            <h3 class="text-xl font-semibold mb-4 text-slate-800 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 transition-colors cursor-pointer">
-                                Responsive Design: Kỹ thuật và công cụ hiện đại
+                            <h3 class="text-xl font-bold mb-4 text-slate-800 dark:text-white group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
+                                Tech Trends 2025: Những công nghệ đáng chú ý
                             </h3>
-                            <p class="text-slate-600 dark:text-slate-300 mb-4 line-clamp-3">
-                                Các kỹ thuật responsive design mới nhất với CSS Grid, Flexbox và Container Queries...
+                            <p class="text-slate-600 dark:text-slate-300 mb-6 line-clamp-3">
+                                Tổng quan về những technology trends sẽ shape tương lai development trong năm 2025...
                             </p>
                             <div class="flex items-center justify-between">
-                                <div class="flex items-center gap-2">
+                                <div class="flex items-center gap-3">
                                     <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=32&h=32&fit=crop&crop=face" alt="Author" class="w-8 h-8 rounded-full">
-                                    <span class="text-sm text-slate-600 dark:text-slate-300">Alex Nguyen</span>
+                                    <span class="text-sm text-slate-600 dark:text-slate-300">Trần Ngọc Hưng</span>
                                 </div>
-                                <button class="inline-flex items-center gap-2 text-blue-600 dark:text-blue-400 font-medium hover:gap-3 transition-all">
+                                <button class="inline-flex items-center gap-2 text-primary-600 dark:text-primary-400 font-semibold group-hover:gap-3 transition-all">
                                     Đọc thêm <i class="fas fa-arrow-right text-sm"></i>
                                 </button>
                             </div>
                         </div>
                     </article>
+                </div>
+
+                <!-- Newsletter Subscription -->
+                <div class="mt-20 text-center">
+                    <div class="bg-gradient-to-r from-primary-500 to-purple-600 rounded-3xl p-12 text-white">
+                        <h3 class="text-3xl font-bold mb-4">Đăng ký nhận bài viết mới</h3>
+                        <p class="text-lg opacity-90 mb-8 max-w-2xl mx-auto">
+                            Nhận thông báo về những bài viết mới nhất về tech, design và career development
+                        </p>
+                        <div class="flex flex-col sm:flex-row gap-4 justify-center max-w-md mx-auto">
+                            <input type="email" placeholder="Nhập email của bạn" class="flex-1 px-6 py-3 rounded-xl text-slate-800 font-medium">
+                            <button class="bg-white text-primary-600 px-8 py-3 rounded-xl font-semibold hover:bg-opacity-90 transition-all duration-300 hover:-translate-y-1">
+                                Đăng ký
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -759,96 +813,103 @@
 
     <!-- Contact Section -->
     <section id="contact-section" class="section">
-        <div class="py-20 bg-slate-50 dark:bg-slate-800">
-            <div class="max-w-6xl mx-auto px-5">
+        <div class="py-24 bg-slate-50 dark:bg-slate-800 pt-32">
+            <div class="max-w-7xl mx-auto px-6">
                 <div class="text-center mb-16">
-                    <h2 class="text-4xl md:text-5xl font-bold text-slate-800 dark:text-white mb-4">Liên hệ với tôi</h2>
-                    <p class="text-slate-600 dark:text-slate-300 text-lg max-w-2xl mx-auto">
-                        Bạn có điều muốn hỏi hay chỉ muốn trò chuyện? Liên hệ với mình ngay
+                    <h2 class="text-4xl md:text-6xl font-black gradient-text mb-6">Kết nối với tôi</h2>
+                    <p class="text-xl text-slate-600 dark:text-slate-300 max-w-3xl mx-auto">
+                        Có ý tưởng dự án thú vị? Muốn hợp tác? Hay chỉ đơn giản muốn trò chuyện về tech? 
+                        Tôi luôn sẵn sàng lắng nghe!
                     </p>
                 </div>
                 
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-16">
                     <!-- Contact Form -->
-                    <div class="bg-white dark:bg-slate-700 rounded-xl shadow-lg p-8">
-                        <h3 class="text-2xl font-bold mb-6 text-slate-800 dark:text-white">Gửi tin nhắn</h3>
-                        <form id="contact-form">
-                            <div class="mb-6">
-                                <label for="name" class="block text-slate-700 dark:text-slate-300 mb-2">Họ và tên</label>
-                                <input type="text" id="name" class="w-full px-4 py-3 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                    <div class="bg-white dark:bg-slate-700 rounded-3xl shadow-xl p-10">
+                        <h3 class="text-3xl font-bold mb-8 text-slate-800 dark:text-white">Gửi tin nhắn</h3>
+                        <form id="contact-form" class="space-y-6">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label for="name" class="block text-slate-700 dark:text-slate-300 font-medium mb-3">Họ và tên</label>
+                                    <input type="text" id="name" class="w-full px-4 py-4 rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-300" required>
+                                </div>
+                                <div>
+                                    <label for="email" class="block text-slate-700 dark:text-slate-300 font-medium mb-3">Email</label>
+                                    <input type="email" id="email" class="w-full px-4 py-4 rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-300" required>
+                                </div>
                             </div>
-                            <div class="mb-6">
-                                <label for="email" class="block text-slate-700 dark:text-slate-300 mb-2">Email</label>
-                                <input type="email" id="email" class="w-full px-4 py-3 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                            <div>
+                                <label for="subject" class="block text-slate-700 dark:text-slate-300 font-medium mb-3">Chủ đề</label>
+                                <input type="text" id="subject" class="w-full px-4 py-4 rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-300" required>
                             </div>
-                            <div class="mb-6">
-                                <label for="subject" class="block text-slate-700 dark:text-slate-300 mb-2">Chủ đề</label>
-                                <input type="text" id="subject" class="w-full px-4 py-3 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                            <div>
+                                <label for="message" class="block text-slate-700 dark:text-slate-300 font-medium mb-3">Nội dung</label>
+                                <textarea id="message" rows="6" class="w-full px-4 py-4 rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-300 resize-none" required></textarea>
                             </div>
-                            <div class="mb-6">
-                                <label for="message" class="block text-slate-700 dark:text-slate-300 mb-2">Nội dung</label>
-                                <textarea id="message" rows="6" class="w-full px-4 py-3 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500" required></textarea>
-                            </div>
-                            <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-6 rounded-lg transition-colors">
-                                <i class="fas fa-paper-plane mr-2"></i> Gửi tin nhắn
+                            <button type="submit" class="w-full bg-gradient-to-r from-primary-500 to-purple-500 hover:from-primary-600 hover:to-purple-600 text-white font-semibold py-4 rounded-xl transition-all duration-300 transform hover:-translate-y-1 hover:shadow-xl">
+                                <i class="fas fa-paper-plane mr-3"></i>Gửi tin nhắn
                             </button>
                         </form>
                     </div>
                     
                     <!-- Contact Info -->
-                    <div>
-                        <div class="bg-white dark:bg-slate-700 rounded-xl shadow-lg p-8 mb-8">
-                            <h3 class="text-2xl font-bold mb-6 text-slate-800 dark:text-white">Thông tin liên hệ</h3>
+                    <div class="space-y-8">
+                        <!-- Contact Details -->
+                        <div class="bg-white dark:bg-slate-700 rounded-3xl shadow-xl p-10">
+                            <h3 class="text-3xl font-bold mb-8 text-slate-800 dark:text-white">Thông tin liên hệ</h3>
                             <div class="space-y-6">
                                 <div class="flex items-start gap-4">
-                                    <div class="w-12 h-12 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center">
-                                        <i class="fas fa-map-marker-alt text-blue-600 dark:text-blue-400"></i>
+                                    <div class="w-14 h-14 rounded-2xl bg-gradient-to-r from-primary-500 to-purple-500 flex items-center justify-center text-white shrink-0">
+                                        <i class="fas fa-map-marker-alt text-xl"></i>
                                     </div>
                                     <div>
-                                        <h4 class="text-lg font-semibold text-slate-800 dark:text-white mb-1">Địa chỉ</h4>
-                                        <p class="text-slate-600 dark:text-slate-300">27 Nguyễn Đình Chiểu, Phường Lâm Viên, Đà Lạt Lâm Đồng</p>
+                                        <h4 class="text-lg font-semibold text-slate-800 dark:text-white mb-2">Địa chỉ</h4>
+                                        <p class="text-slate-600 dark:text-slate-300">27 Nguyễn Đình Chiểu, Phường Lâm Viên<br>Đà Lạt, Lâm Đồng, Việt Nam</p>
                                     </div>
                                 </div>
                                 <div class="flex items-start gap-4">
-                                    <div class="w-12 h-12 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center">
-                                        <i class="fas fa-envelope text-green-600 dark:text-green-400"></i>
+                                    <div class="w-14 h-14 rounded-2xl bg-gradient-to-r from-green-500 to-blue-500 flex items-center justify-center text-white shrink-0">
+                                        <i class="fas fa-envelope text-xl"></i>
                                     </div>
                                     <div>
-                                        <h4 class="text-lg font-semibold text-slate-800 dark:text-white mb-1">Email</h4>
+                                        <h4 class="text-lg font-semibold text-slate-800 dark:text-white mb-2">Email</h4>
                                         <p class="text-slate-600 dark:text-slate-300">ngochungtran.aity@gmail.com</p>
                                     </div>
                                 </div>
                                 <div class="flex items-start gap-4">
-                                    <div class="w-12 h-12 rounded-full bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center">
-                                        <i class="fas fa-phone text-purple-600 dark:text-purple-400"></i>
+                                    <div class="w-14 h-14 rounded-2xl bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center text-white shrink-0">
+                                        <i class="fas fa-phone text-xl"></i>
                                     </div>
                                     <div>
-                                        <h4 class="text-lg font-semibold text-slate-800 dark:text-white mb-1">Điện thoại</h4>
+                                        <h4 class="text-lg font-semibold text-slate-800 dark:text-white mb-2">Điện thoại</h4>
                                         <p class="text-slate-600 dark:text-slate-300">+84 937 265 501</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         
-                        <div class="bg-white dark:bg-slate-700 rounded-xl shadow-lg p-8">
-                            <h3 class="text-2xl font-bold mb-6 text-slate-800 dark:text-white">Kết bạn với mình</h3>
-                            <div class="flex gap-4">
-                                <a href="https://www.facebook.com/JiiPii.13?rdid=OG2q0zvpeLMA0GMv&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F1ANoGDeQw7%2F#" class="w-12 h-12 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center hover:bg-blue-600 hover:text-white transition-colors">
-                                    <i class="fab fa-facebook-f"></i>
+                        <!-- Social Media -->
+                        <div class="bg-white dark:bg-slate-700 rounded-3xl shadow-xl p-10">
+                            <h3 class="text-3xl font-bold mb-8 text-slate-800 dark:text-white">Kết nối mạng xã hội</h3>
+                            <div class="grid grid-cols-2 gap-4">
+                                <a href="https://www.facebook.com/JiiPii.13?rdid=OG2q0zvpeLMA0GMv&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F1ANoGDeQw7%2F" target="_blank" class="group flex items-center gap-3 p-4 rounded-2xl bg-slate-100 dark:bg-slate-800 hover:bg-blue-600 hover:text-white transition-all duration-300 hover:-translate-y-1">
+                                    <i class="fab fa-facebook-f text-xl group-hover:scale-110 transition-transform"></i>
+                                    <span class="font-medium">Facebook</span>
                                 </a>
-                                <a href="#" class="w-12 h-12 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center hover:bg-blue-400 hover:text-white transition-colors">
-                                    <i class="fab fa-twitter"></i>
-                                </a>
-                                <a href="#" class="w-12 h-12 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center hover:bg-gradient-to-r hover:from-purple-600 hover:to-pink-600 hover:text-white transition-colors">
-                                    <i class="fab fa-instagram"></i>
-                                </a>
-                                <a href="#" class="w-12 h-12 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center hover:bg-blue-700 hover:text-white transition-colors">
-                                    <i class="fab fa-linkedin-in"></i>
-                                </a>
-                                <a href="#" class="w-12 h-12 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center hover:bg-black hover:text-white transition-colors">
-                                    <i class="fab fa-github"></i>
+                                <a href="#" class="group flex items-center gap-3 p-4 rounded-2xl bg-slate-100 dark:bg-slate-800 hover:bg-red-600 hover:text-white transition-all duration-300 hover:-translate-y-1">
+                                    <i class="fab fa-youtube text-xl group-hover:scale-110 transition-transform"></i>
+                                    <span class="font-medium">YouTube</span>
                                 </a>
                             </div>
+                        </div>
+
+                        <!-- Quick Response -->
+                        <div class="bg-gradient-to-br from-primary-50 to-purple-50 dark:from-slate-700 dark:to-slate-600 rounded-3xl p-8 text-center">
+                            <div class="w-16 h-16 bg-gradient-to-r from-primary-500 to-purple-500 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                                <i class="fas fa-clock text-2xl text-white"></i>
+                            </div>
+                            <h4 class="text-xl font-bold text-slate-800 dark:text-white mb-2">Thời gian phản hồi</h4>
+                            <p class="text-slate-600 dark:text-slate-300">Thường phản hồi trong vòng 24 giờ</p>
                         </div>
                     </div>
                 </div>
@@ -857,97 +918,178 @@
     </section>
 
     <!-- Footer -->
-    <footer class="bg-slate-800 dark:bg-slate-900 text-slate-300 py-12">
-        <div class="max-w-6xl mx-auto px-5">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-                <div class="md:col-span-2">
-                    <h3 class="text-xl font-bold text-white mb-4">Trần Ngọc Hưng</h3>
-                    <p class="mb-6 max-w-md">
-                        Tôi là một Full-stack Developer và UI/UX Designer đam mê tạo ra những sản phẩm kỹ thuật số chất lượng cao với trải nghiệm người dùng tuyệt vời.
+    <footer class="bg-slate-900 dark:bg-black text-slate-300 py-16">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
+                <!-- Brand -->
+                <div class="lg:col-span-2">
+                    <h3 class="text-2xl font-bold gradient-text mb-4">Trần Ngọc Hưng</h3>
+                    <p class="text-lg text-slate-400 mb-6 max-w-md leading-relaxed">
+                        Full-stack Developer & UI/UX Designer đam mê tạo ra những sản phẩm số có ý nghĩa 
+                        với trải nghiệm người dùng tuyệt vời.
                     </p>
                     <div class="flex gap-4">
-                        <a href="https://www.facebook.com/JiiPii.13?rdid=OG2q0zvpeLMA0GMv&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F1ANoGDeQw7%2F#" class="w-10 h-10 rounded-full bg-slate-700 flex items-center justify-center hover:bg-blue-600 transition-colors">
-                            <i class="fab fa-facebook-f"></i>
+                        <a href="https://www.facebook.com/JiiPii.13?rdid=OG2q0zvpeLMA0GMv&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F1ANoGDeQw7%2F" target="_blank" class="w-12 h-12 rounded-xl bg-slate-800 flex items-center justify-center hover:bg-blue-600 transition-all duration-300 hover:-translate-y-1">
+                            <i class="fab fa-facebook-f text-lg"></i>
                         </a>
-                        <a href="#" class="w-10 h-10 rounded-full bg-slate-700 flex items-center justify-center hover:bg-blue-400 transition-colors">
-                            <i class="fab fa-twitter"></i>
+                        <a href="#" class="w-12 h-12 rounded-xl bg-slate-800 flex items-center justify-center hover:bg-blue-400 transition-all duration-300 hover:-translate-y-1">
+                            <i class="fab fa-twitter text-lg"></i>
                         </a>
-                        <a href="#" class="w-10 h-10 rounded-full bg-slate-700 flex items-center justify-center hover:bg-gradient-to-r hover:from-purple-600 hover:to-pink-600 transition-colors">
-                            <i class="fab fa-instagram"></i>
+                        <a href="#" class="w-12 h-12 rounded-xl bg-slate-800 flex items-center justify-center hover:bg-gradient-to-r hover:from-purple-600 hover:to-pink-600 transition-all duration-300 hover:-translate-y-1">
+                            <i class="fab fa-instagram text-lg"></i>
                         </a>
-                        <a href="#" class="w-10 h-10 rounded-full bg-slate-700 flex items-center justify-center hover:bg-blue-700 transition-colors">
-                            <i class="fab fa-linkedin-in"></i>
+                        <a href="#" class="w-12 h-12 rounded-xl bg-slate-800 flex items-center justify-center hover:bg-blue-700 transition-all duration-300 hover:-translate-y-1">
+                            <i class="fab fa-linkedin-in text-lg"></i>
+                        </a>
+                        <a href="#" class="w-12 h-12 rounded-xl bg-slate-800 flex items-center justify-center hover:bg-gray-700 transition-all duration-300 hover:-translate-y-1">
+                            <i class="fab fa-github text-lg"></i>
                         </a>
                     </div>
                 </div>
                 
+                <!-- Quick Links -->
                 <div>
-                    <h3 class="text-lg font-semibold text-white mb-4">Liên kết nhanh</h3>
-                    <ul class="space-y-2">
-                        <li><a href="#" onclick="showSection('home')" class="hover:text-blue-400 transition-colors">Trang chủ</a></li>
-                        <li><a href="#" onclick="showSection('about')" class="hover:text-blue-400 transition-colors">Giới thiệu</a></li>
-                        <li><a href="#" onclick="showSection('portfolio')" class="hover:text-blue-400 transition-colors">Dự án</a></li>
-                        <li><a href="#" onclick="showSection('blog')" class="hover:text-blue-400 transition-colors">Blog</a></li>
-                        <li><a href="#" onclick="showSection('contact')" class="hover:text-blue-400 transition-colors">Liên hệ</a></li>
+                    <h3 class="text-lg font-semibold text-white mb-6">Liên kết nhanh</h3>
+                    <ul class="space-y-3">
+                        <li><a href="#" onclick="showSection('home')" class="hover:text-primary-400 transition-colors duration-300">Trang chủ</a></li>
+                        <li><a href="#" onclick="showSection('about')" class="hover:text-primary-400 transition-colors duration-300">Giới thiệu</a></li>
+                        <li><a href="#" onclick="showSection('portfolio')" class="hover:text-primary-400 transition-colors duration-300">Dự án</a></li>
+                        <li><a href="#" onclick="showSection('blog')" class="hover:text-primary-400 transition-colors duration-300">Blog</a></li>
+                        <li><a href="#" onclick="showSection('contact')" class="hover:text-primary-400 transition-colors duration-300">Liên hệ</a></li>
                     </ul>
                 </div>
                 
+                <!-- Contact Info -->
                 <div>
-                    <h3 class="text-lg font-semibold text-white mb-4">Liên hệ</h3>
-                    <ul class="space-y-2">
-                        <li class="flex items-start gap-2">
-                            <i class="fas fa-map-marker-alt mt-1 text-blue-400"></i>
-                            <span>27 Nguyễn Đình Chiểu, Phường Lâm Viên, Đà Lạt Lâm Đồng</span>
+                    <h3 class="text-lg font-semibold text-white mb-6">Liên hệ</h3>
+                    <ul class="space-y-4">
+                        <li class="flex items-start gap-3">
+                            <i class="fas fa-map-marker-alt mt-1 text-primary-400"></i>
+                            <span class="text-sm">27 Nguyễn Đình Chiểu, Phường Lâm Viên, Đà Lạt, Lâm Đồng</span>
                         </li>
-                        <li class="flex items-start gap-2">
-                            <i class="fas fa-envelope mt-1 text-blue-400"></i>
-                            <span>ngochungtran.aity@gmail.com</span>
+                        <li class="flex items-start gap-3">
+                            <i class="fas fa-envelope mt-1 text-primary-400"></i>
+                            <span class="text-sm">ngochungtran.aity@gmail.com</span>
                         </li>
-                        <li class="flex items-start gap-2">
-                            <i class="fas fa-phone mt-1 text-blue-400"></i>
-                            <span>+84 937 265 501</span>
+                        <li class="flex items-start gap-3">
+                            <i class="fas fa-phone mt-1 text-primary-400"></i>
+                            <span class="text-sm">+84 937 265 501</span>
                         </li>
                     </ul>
                 </div>
             </div>
             
-            <div class="border-t border-slate-700 mt-12 pt-8 text-center">
-                <p>&copy; 2025 Trần Ngọc Hưng. Tất cả quyền được bảo lưu.</p>
+            <!-- Footer Bottom -->
+            <div class="border-t border-slate-700 pt-8">
+                <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+                    <p class="text-slate-400 text-sm">
+                        &copy; 2025 Trần Ngọc Hưng. Tất cả quyền được bảo lưu.
+                    </p>
+                    <div class="flex gap-6 text-sm">
+                        <a href="#" class="hover:text-primary-400 transition-colors">Privacy Policy</a>
+                        <a href="#" class="hover:text-primary-400 transition-colors">Terms of Service</a>
+                        <a href="#" class="hover:text-primary-400 transition-colors">Sitemap</a>
+                    </div>
+                </div>
             </div>
         </div>
     </footer>
 
+    <!-- Back to Top Button -->
+    <button id="back-to-top" class="fixed bottom-8 right-8 w-14 h-14 bg-gradient-to-r from-primary-500 to-purple-500 hover:from-primary-600 hover:to-purple-600 text-white rounded-2xl shadow-2xl opacity-0 invisible transition-all duration-300 hover:-translate-y-1 z-50">
+        <i class="fas fa-arrow-up text-lg"></i>
+    </button>
+
     <!-- JavaScript -->
     <script>
-        // Dark Mode Toggle
-        const themeToggle = document.getElementById('theme-toggle');
+        // Variables
+        let currentTheme = localStorage.getItem('theme');
         const htmlElement = document.documentElement;
-        
-        // Check for saved theme preference
-        const savedTheme = localStorage.getItem('theme');
-        if (savedTheme) {
-            htmlElement.classList.add(savedTheme);
-        } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-            htmlElement.classList.add('dark');
+        const themeToggle = document.getElementById('theme-toggle');
+        const backToTopBtn = document.getElementById('back-to-top');
+        const scrollProgress = document.getElementById('scroll-progress');
+        const header = document.getElementById('header');
+
+        // Initialize theme
+        function initTheme() {
+            if (currentTheme) {
+                htmlElement.classList.add(currentTheme);
+            } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                htmlElement.classList.add('dark');
+                currentTheme = 'dark';
+                localStorage.setItem('theme', 'dark');
+            }
         }
-        
+
+        // Theme toggle
         themeToggle.addEventListener('click', () => {
             if (htmlElement.classList.contains('dark')) {
                 htmlElement.classList.remove('dark');
+                currentTheme = 'light';
                 localStorage.setItem('theme', 'light');
             } else {
                 htmlElement.classList.add('dark');
+                currentTheme = 'dark';
                 localStorage.setItem('theme', 'dark');
             }
         });
-        
-        // Mobile Menu Toggle
+
+        // Scroll progress and back to top
+        window.addEventListener('scroll', () => {
+            const scrolled = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+            scrollProgress.style.width = scrolled + '%';
+
+            // Back to top button visibility
+            if (window.scrollY > 500) {
+                backToTopBtn.style.opacity = '1';
+                backToTopBtn.style.visibility = 'visible';
+            } else {
+                backToTopBtn.style.opacity = '0';
+                backToTopBtn.style.visibility = 'invisible';
+            }
+
+            // Header background on scroll
+            if (window.scrollY > 100) {
+                header.style.background = 'rgba(255, 255, 255, 0.95)';
+                header.style.backdropFilter = 'blur(20px)';
+                if (htmlElement.classList.contains('dark')) {
+                    header.style.background = 'rgba(15, 23, 42, 0.95)';
+                }
+            } else {
+                header.style.background = 'rgba(255, 255, 255, 0.1)';
+                header.style.backdropFilter = 'blur(10px)';
+                if (htmlElement.classList.contains('dark')) {
+                    header.style.background = 'rgba(15, 23, 42, 0.8)';
+                }
+            }
+        });
+
+        // Back to top click
+        backToTopBtn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // Mobile menu toggle
         function toggleMobileMenu() {
             const mobileMenu = document.getElementById('mobile-menu');
+            const hamburger = document.querySelector('.hamburger');
+            
             mobileMenu.classList.toggle('hidden');
+            
+            // Hamburger animation
+            const spans = hamburger.querySelectorAll('span');
+            if (!mobileMenu.classList.contains('hidden')) {
+                spans[0].style.transform = 'rotate(45deg) translateY(6px)';
+                spans[1].style.opacity = '0';
+                spans[2].style.transform = 'rotate(-45deg) translateY(-6px)';
+            } else {
+                spans[0].style.transform = 'none';
+                spans[1].style.opacity = '1';
+                spans[2].style.transform = 'none';
+            }
         }
-        
-        // Show Section Function
+
+        // Show section function
         function showSection(sectionId) {
             // Hide all sections
             document.querySelectorAll('.section').forEach(section => {
@@ -959,59 +1101,115 @@
             
             // Update active link
             document.querySelectorAll('.nav-link').forEach(link => {
-                link.classList.remove('active', 'text-blue-600', 'dark:text-blue-400', 'bg-blue-50', 'dark:bg-blue-900/30');
-                link.classList.add('text-slate-600', 'dark:text-slate-300');
+                link.classList.remove('active');
             });
             
-            // Activate the clicked link
-            const activeLink = document.querySelector(`.nav-link[onclick="showSection('${sectionId}')"]`);
-            if (activeLink) {
-                activeLink.classList.add('active', 'text-blue-600', 'dark:text-blue-400', 'bg-blue-50', 'dark:bg-blue-900/30');
-                activeLink.classList.remove('text-slate-600', 'dark:text-slate-300');
-            }
+            // Find and activate the clicked link
+            const activeLinks = document.querySelectorAll(`[onclick="showSection('${sectionId}')"]`);
+            activeLinks.forEach(link => {
+                link.classList.add('active');
+            });
             
             // Close mobile menu if open
             const mobileMenu = document.getElementById('mobile-menu');
             if (!mobileMenu.classList.contains('hidden')) {
-                mobileMenu.classList.add('hidden');
+                toggleMobileMenu();
             }
+
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
-        
-        // Portfolio Filtering
+
+        // Portfolio filtering
         document.addEventListener('DOMContentLoaded', function() {
+            initTheme();
+            
             const filterButtons = document.querySelectorAll('.filter-btn');
             const portfolioItems = document.querySelectorAll('.portfolio-item');
             
             filterButtons.forEach(button => {
                 button.addEventListener('click', function() {
                     // Remove active class from all buttons
-                    filterButtons.forEach(btn => btn.classList.remove('active', 'bg-blue-600', 'text-white'));
-                    filterButtons.forEach(btn => btn.classList.add('bg-slate-200', 'dark:bg-slate-700', 'text-slate-700', 'dark:text-slate-300'));
+                    filterButtons.forEach(btn => {
+                        btn.classList.remove('active', 'bg-gradient-to-r', 'from-primary-500', 'to-purple-500', 'text-white');
+                        btn.classList.add('bg-white', 'dark:bg-slate-700', 'text-slate-700', 'dark:text-slate-300', 'border', 'border-slate-200', 'dark:border-slate-600');
+                    });
                     
                     // Add active class to clicked button
-                    this.classList.add('active', 'bg-blue-600', 'text-white');
-                    this.classList.remove('bg-slate-200', 'dark:bg-slate-700', 'text-slate-700', 'dark:text-slate-300');
+                    this.classList.add('active', 'bg-gradient-to-r', 'from-primary-500', 'to-purple-500', 'text-white');
+                    this.classList.remove('bg-white', 'dark:bg-slate-700', 'text-slate-700', 'dark:text-slate-300', 'border', 'border-slate-200', 'dark:border-slate-600');
                     
                     const filterValue = this.getAttribute('data-filter');
                     
                     portfolioItems.forEach(item => {
                         if (filterValue === 'all' || item.classList.contains(filterValue)) {
                             item.style.display = 'block';
+                            setTimeout(() => {
+                                item.style.opacity = '1';
+                                item.style.transform = 'translateY(0)';
+                            }, 100);
                         } else {
-                            item.style.display = 'none';
+                            item.style.opacity = '0';
+                            item.style.transform = 'translateY(20px)';
+                            setTimeout(() => {
+                                item.style.display = 'none';
+                            }, 300);
                         }
                     });
                 });
             });
+
+            // Typing animation
+            const typingText = document.querySelector('.typing-animation');
+            if (typingText) {
+                const text = typingText.textContent;
+                typingText.textContent = '';
+                typingText.style.width = '0';
+                
+                setTimeout(() => {
+                    typingText.style.width = '100%';
+                    let i = 0;
+                    const typeWriter = () => {
+                        if (i < text.length) {
+                            typingText.textContent += text.charAt(i);
+                            i++;
+                            setTimeout(typeWriter, 100);
+                        }
+                    };
+                    typeWriter();
+                }, 1000);
+            }
+
+            // Skill bar animation on scroll
+            const observerOptions = {
+                threshold: 0.7,
+                rootMargin: '0px 0px -100px 0px'
+            };
+
+            const skillsObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const skillBars = entry.target.querySelectorAll('.skill-bar');
+                        skillBars.forEach(bar => {
+                            bar.style.animation = 'fill-bar 2s ease-in-out forwards';
+                        });
+                    }
+                });
+            }, observerOptions);
+
+            const skillsSection = document.querySelector('#about-section');
+            if (skillsSection) {
+                skillsObserver.observe(skillsSection);
+            }
         });
-        
-        // Contact Form Submission
+
+        // Contact form submission
         const contactForm = document.getElementById('contact-form');
         if (contactForm) {
             contactForm.addEventListener('submit', function(e) {
                 e.preventDefault();
                 
-                // Get form values
+                const formData = new FormData(this);
                 const name = document.getElementById('name').value;
                 const email = document.getElementById('email').value;
                 const subject = document.getElementById('subject').value;
@@ -1022,15 +1220,75 @@
                     alert('Vui lòng điền đầy đủ thông tin.');
                     return;
                 }
+
+                // Email validation
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(email)) {
+                    alert('Vui lòng nhập email hợp lệ.');
+                    return;
+                }
                 
-                // Form submission logic (simulated)
-                console.log('Form submitted:', { name, email, subject, message });
-                alert('Cảm ơn bạn! Tin nhắn của bạn đã được gửi thành công.');
+                // Simulate form submission
+                const submitBtn = this.querySelector('button[type="submit"]');
+                const originalText = submitBtn.innerHTML;
                 
-                // Reset form
-                contactForm.reset();
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-3"></i>Đang gửi...';
+                submitBtn.disabled = true;
+                
+                setTimeout(() => {
+                    alert('Cảm ơn bạn! Tin nhắn của bạn đã được gửi thành công. Tôi sẽ phản hồi trong thời gian sớm nhất.');
+                    this.reset();
+                    submitBtn.innerHTML = originalText;
+                    submitBtn.disabled = false;
+                }, 2000);
             });
         }
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Lazy loading for images
+        const imageObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const img = entry.target;
+                    img.classList.add('animate-fade-in-up');
+                    imageObserver.unobserve(img);
+                }
+            });
+        });
+
+        document.querySelectorAll('img').forEach(img => {
+            imageObserver.observe(img);
+        });
+
+        // Performance optimization
+        let ticking = false;
+
+        function updateScrollProgress() {
+            const scrolled = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+            scrollProgress.style.width = scrolled + '%';
+        }
+
+        function requestTick() {
+            if (!ticking) {
+                requestAnimationFrame(updateScrollProgress);
+                ticking = true;
+            }
+        }
+
+        window.addEventListener('scroll', requestTick, { passive: true });
     </script>
 </body>
 </html>
